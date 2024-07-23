@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->string('telepon');
+            $table->enum('jenis_kelamin', ['Laki-Laki', 'Perempuan']);
+            $table->enum('role', ['admin', 'customer', 'pemilik'])->default('customer');
+            $table->text('alamat');
             $table->timestamps();
         });
     }
