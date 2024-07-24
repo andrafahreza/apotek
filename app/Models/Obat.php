@@ -14,6 +14,11 @@ class Obat extends Model
         'id',
         'nama_obat',
         'jenis_obat',
-        'harga'
+        'harga',
+        'photo'
     ];
+
+    public function stok(){
+        return $this->hasMany(Persediaan::class, "obat_id", "id");
+    }
 }

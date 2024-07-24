@@ -15,16 +15,16 @@
                 <span>Beranda</span>
             </a>
         </li>
-        <li class="">
-            <a href="#">
+        <li class="@if ($title == 'pembelian') mm-active @endif">
+            <a href="{{ route('pembelian') }}">
                 <img src="/back/img/menu-icon/3.svg" alt>
-                <span>Penjualan</span>
+                <span>Pembelian</span>
             </a>
         </li>
         <li class="">
             <a href="#">
                 <img src="/back/img/menu-icon/3.svg" alt>
-                <span>Pembelian</span>
+                <span>Penjualan</span>
             </a>
         </li>
         <li class="">

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Obat;
+use App\Models\Persediaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class ObatController extends Controller
 {
@@ -27,6 +29,10 @@ class ObatController extends Controller
         DB::beginTransaction();
 
         try {
+            $request->validate([
+                'photo' => 'required|image|mimes:jpeg,png,jpg',
+            ]);
+
             $data = [
                 "nama_obat" => $request->nama_obat,
                 "jenis_obat" => $request->jenis_obat,
@@ -44,6 +50,12 @@ class ObatController extends Controller
                     throw new \Exception("Obat $request->nama_obat sudah terdaftar");
                 }
 
+                $imageName = time().'.'.$request->photo->extension();
+                $request->photo->move(public_path('/obat/'), $imageName);
+                $data['photo'] = "/obat/$imageName";
+
+                File::delete(public_path($obat->photo));
+
                 if (!$obat->update($data)) {
                     throw new \Exception("Terjadi kesalahan saat memperbarui data");
                 }
@@ -52,6 +64,10 @@ class ObatController extends Controller
                 if (!empty($check)) {
                     throw new \Exception("Obat $request->nama_obat sudah terdaftar");
                 }
+
+                $imageName = time().'.'.$request->photo->extension();
+                $request->photo->move(public_path('/obat/'), $imageName);
+                $data['photo'] = "/obat/$imageName";
 
                 $obat = Obat::create($data);
                 if (!$obat->save()) {
@@ -93,6 +109,7 @@ class ObatController extends Controller
 
         try {
             $obat = Obat::findOrFail($request->id);
+            File::delete(public_path($obat->photo));
 
             if (!$obat->delete()) {
                 throw new \Exception("Terjadi kesalahan saat menghapus data");
@@ -106,5 +123,13 @@ class ObatController extends Controller
             DB::rollBack();
             return redirect()->back()->withErrors($th->getMessage());
         }
+    }
+
+    public function stok($id = null)
+    {
+        $data = Obat::findOrFail($id);
+        $title = "obat";
+
+        return view('back.pages.datamaster.obat-stok', compact('data', 'title'));
     }
 }
