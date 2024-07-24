@@ -23,12 +23,12 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6 col-md-6">
                         <div class="header-left">
-                            <address>Alamat</address>
+                            <address>@if (!empty($pengaturan)) {{ $pengaturan->alamat }} @endif</address>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="headr-bar-right">
-                            <a href="tel:123456789">08123123</a>
+                            <a href="tel:123456789">@if (!empty($pengaturan)) {{ $pengaturan->telepon }} @endif</a>
                             <div class="serch-fl">
                                 <a class="ccdda" href="#"><i class="fas fa-search"></i></a>
                             </div>
@@ -76,7 +76,7 @@
                 <div class="col-lg-12">
                     <div class="hero-containt">
                         <h3>Sistem Informasi <br> Penjualan Obat </h3>
-                        <a href="#" class="theme-btn">Hubungi Kami</a>
+                        <a href="tel:@if (!empty($pengaturan)) {{ $pengaturan->telepon }} @endif" class="theme-btn">Hubungi Kami</a>
                     </div>
                 </div>
             </div>
@@ -93,15 +93,14 @@
                 <div class="col-lg-4 col-md-4">
                     <div class="single-info">
                         <i class="icofont-map-pins"></i>
-                        <p>11 Georgian Rd,
-                            58/A, New York City</p>
+                        <p>@if (!empty($pengaturan)) {{ $pengaturan->alamat }} @endif</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <div class="single-info cl2">
                         <i class="icofont-envelope"></i>
-                        <p><a href="mailto:info@info.com">info@info.com</a><br />
-                            <a href="info%40medics.html">info@medics.com</a>
+                        <p>
+                            <a href="mailto:@if (!empty($pengaturan)) {{ $pengaturan->email }} @endif">@if (!empty($pengaturan)) {{ $pengaturan->email }} @endif</a>
                         </p>
                     </div>
                 </div>
@@ -110,8 +109,7 @@
                     <div class="single-info cl3">
                         <i class="icofont-mobile-phone"></i>
                         <div class="info-details text-white">
-                            <p><a href="tel:01234567890">01213-456-7890</a></p>
-                            <p><a href="tel:01234567890">01213-456-7890</a></p>
+                            <p><a href="tel:@if (!empty($pengaturan)) {{ $pengaturan->telepon }} @endif">@if (!empty($pengaturan)) {{ $pengaturan->telepon }} @endif</a></p>
                         </div>
                     </div>
                 </div>

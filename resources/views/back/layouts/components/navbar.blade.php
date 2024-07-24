@@ -55,8 +55,8 @@
                 <span>Akun</span>
             </a>
         </li>
-        <li class="">
-            <a href="#">
+        <li class="@if ($title == 'pengaturan') mm-active @endif">
+            <a href="{{ route('pengaturan') }}">
                 <img src="/back/img/menu-icon/3.svg" alt>
                 <span>Pengaturan</span>
             </a>
