@@ -4,7 +4,7 @@
     <div class="col-12">
         <div class="QA_section">
             <div class="white_box_tittle list_header">
-                <h4>Data Pemasok</h4>
+                <h4>Data Obat</h4>
                 <div class="box_right d-flex lms_block">
                     <div class="serach_field_2">
                         <div class="search_inner">
@@ -37,9 +37,9 @@
                     <thead>
                         <tr>
                             <th scope="col">#ID</th>
-                            <th scope="col">Nama Pemasok</th>
-                            <th scope="col">No Telepon</th>
-                            <th scope="col">Alamat</th>
+                            <th scope="col">Nama Obat</th>
+                            <th scope="col">Jenis</th>
+                            <th scope="col">Harga</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -47,9 +47,9 @@
                         @foreach ($data as $item)
                             <tr>
                                 <th scope="row">#{{ $item->id }}</th>
-                                <td>{{ $item->nama_pemasok }}</td>
-                                <td>{{ $item->no_telp }}</td>
-                                <td>{!! $item->alamat !!}</td>
+                                <td>{{ $item->nama_obat }}</td>
+                                <td>{{ $item->jenis_obat }}</td>
+                                <td>Rp. {{ number_format($item->harga) }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-primary" onclick="detail({{ $item->id }})" id="btnDetail">Detail</button>
                                     <button type="button" class="btn btn-sm btn-danger" onclick="hapus({{ $item->id }})" id="btnHapus">Hapus</button>
@@ -65,7 +65,7 @@
     <div class="modal fade modalForm" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
-                <form action="{{ route('pemasok-simpan') }}" method="POST" id="formData">
+                <form action="{{ route('obat-simpan') }}" method="POST" id="formData">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalFullscreenLabel">Simpan Data</h5>
@@ -79,16 +79,20 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label>Nama Pemasok <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="nama_pemasok" id="nama_pemasok" placeholder="Masukkan Nama Pemasok" required>
+                                <label>Nama Obat <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="nama_obat" id="nama_obat" placeholder="Masukkan Nama Obat" required>
                             </div>
                             <div class="col-md-12 mt-4">
-                                <label>No. Telepon <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="no_telp" id="no_telp" placeholder="Masukkan No Telepon" required>
+                                <label>Jenis <span class="text-danger">*</span></label>
+                                <select class="form-control" name="jenis_obat" id="jenis_obat" required>
+                                    <option value="">Pilih Jenis Obat</option>
+                                    <option value="obat dengan resep dokter">Obat dengan resep dokter</option>
+                                    <option value="obat tanpa resep dokter">Obat tanpa resep dokter</option>
+                                </select>
                             </div>
                             <div class="col-md-12 mt-4">
-                                <label>Alamat <span class="text-danger">*</span></label>
-                                <textarea class="form-control" name="alamat" id="alamat" required></textarea>
+                                <label>Harga <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="harga" id="harga" required>
                             </div>
                         </div>
                     </div>
@@ -110,7 +114,7 @@
                         <h4 class="mb-3">Hapus Data!</h4>
                         <p class="text-muted mb-4"> Yakin ingin menghapus ini? </p>
                         <div class="hstack gap-2 justify-content-center">
-                            <form action="{{ route('pemasok-hapus') }}" method="POST">
+                            <form action="{{ route('obat-hapus') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="id" id="hapus_id">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
@@ -135,14 +139,13 @@
 
         $('#btnSearch').on('click', function() {
             var search = $('#search').val();
-            var url = "{{ route('pemasok') }}" + "/" + search;
+            var url = "{{ route('obat') }}" + "/" + search;
             window.location = url;
         })
 
         function detail(id) {
-            console.log('asd');
             $('#formData')[0].reset();
-            var url = "{{ route('pemasok-show') }}" + "/" + id;
+            var url = "{{ route('obat-show') }}" + "/" + id;
 
             $.ajax({
                 type: "get",
@@ -156,10 +159,10 @@
 
                         const data = response.data;
                         $('#formData')[0].reset();
-                        $('#formData').attr("action", "{{ route('pemasok-simpan') }}" + "/" + data.id);
-                        $('#nama_pemasok').val(data.nama_pemasok);
-                        $('#no_telp').val(data.no_telp);
-                        $('#alamat').val(data.alamat);
+                        $('#formData').attr("action", "{{ route('obat-simpan') }}" + "/" + data.id);
+                        $('#nama_obat').val(data.nama_obat);
+                        $('#jenis_obat').val(data.jenis_obat);
+                        $('#harga').val(data.harga);
                     } else {
                         $("#formData :input").prop("disabled", true);
                         $('#errorMessage').removeClass('d-none');

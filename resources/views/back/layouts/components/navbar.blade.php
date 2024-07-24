@@ -18,12 +18,6 @@
         <li class="">
             <a href="#">
                 <img src="/back/img/menu-icon/3.svg" alt>
-                <span>Obat</span>
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                <img src="/back/img/menu-icon/3.svg" alt>
                 <span>Penjualan</span>
             </a>
         </li>
@@ -47,6 +41,12 @@
             <a href="{{ route('pemasok') }}">
                 <img src="/back/img/menu-icon/3.svg" alt>
                 <span>Pemasok</span>
+            </a>
+        </li>
+        <li class="@if ($title == 'obat') mm-active @endif">
+            <a href="{{ route('obat') }}">
+                <img src="/back/img/menu-icon/3.svg" alt>
+                <span>Obat</span>
             </a>
         </li>
         <li class="">
