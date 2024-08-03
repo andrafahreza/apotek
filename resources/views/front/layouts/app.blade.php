@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Sistem Informasi Penjualan Obat</title>
     <link href="/front/assets/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="shortcut icon" href="/front/assets/logo.png">
+    <link rel="shortcut icon" href="/front/assets/logo.png">
     <link href="/front/assets/css/all.min.css" rel="stylesheet">
     <link href="/front/assets/css/fontawesome.css" rel="stylesheet">
     <link href="/front/assets/css/animate.css" rel="stylesheet">
@@ -16,6 +17,7 @@
 
     @stack('styles')
 </head>
+
 <body class="home">
     <header class="header1">
         <div class="header-top-bar-area">
@@ -23,21 +25,20 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6 col-md-6">
                         <div class="header-left">
-                            <address>@if (!empty($pengaturan)) {{ $pengaturan->alamat }} @endif</address>
+                            <address>
+                                @if (!empty($pengaturan))
+                                    {{ $pengaturan->alamat }}
+                                @endif
+                            </address>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="headr-bar-right">
-                            <a href="tel:123456789">@if (!empty($pengaturan)) {{ $pengaturan->telepon }} @endif</a>
-                            <div class="serch-fl">
-                                <a class="ccdda" href="#"><i class="fas fa-search"></i></a>
-                            </div>
-                            <a href="#"><i class="fas fa-shopping-cart"></i></a>
-                        </div>
-                        <div class="searchh ccfdf">
-                            <form id="search"><input type="text" placeholder="Search"><button type="submit"
-                                    class="sbtn">Search Now</button>
-                                <a href="javascript:void(0)" class="srch"><i class="far fa-search"></i></a></form>
+                            <a href="tel:123456789">
+                                @if (!empty($pengaturan))
+                                    {{ $pengaturan->telepon }}
+                                @endif
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -48,7 +49,8 @@
             <div class="container">
                 <div class="col-xl-3 col-lg-12 col-md-12 col-sm-12 navbar-header">
                     <div class="header-logo">
-                        <a href="{{ route('index') }}"><img src="/front/assets/logo.png" alt="" width="50"></a>
+                        <a href="{{ route('index') }}"><img src="/front/assets/logo.png" alt=""
+                                width="50"></a>
                     </div>
                     <button type="button" data-toggle="collapse" data-target="#main-navigation" aria-expanded="false"
                         class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span
@@ -60,9 +62,22 @@
                         <li class="dropdown ">
                             <a href="{{ route('index') }}" class="active">Home</a>
                         </li>
-                        <li class="dropdown ">
-                            <a href="{{ route('login') }}">Login</a>
-                        </li>
+                        @if (!Auth::check())
+                            <li class="dropdown ">
+                                <a href="{{ route('login') }}">Login</a>
+                            </li>
+                        @else
+                            <li class="dropdown ">
+                                <a href="{{ route('riwayat-pembelian-customer') }}">Riwayat Pembelian</a>
+                            </li>
+                            <li class="dropdown">
+                                <a><i class="fas fa-user-circle"></i> {{ Auth::user()->name }}</a><i class="fa fa-chevron-down"></i>
+                                <ul class="dropdown-submenu">
+                                    <li><a href="{{ route('profile-customer') }}">Profile</a></li>
+                                    <li><a href="{{ route('logout') }}">Logout</a></li>
+                                </ul>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -75,8 +90,9 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="hero-containt">
-                        <h3>Sistem Informasi <br> Penjualan Obat </h3>
-                        <a href="tel:@if (!empty($pengaturan)) {{ $pengaturan->telepon }} @endif" class="theme-btn">Hubungi Kami</a>
+                        <h3>Sistem Informasi <br> Penjualan Obat Apotek Fortuna </h3>
+                        <a href="tel:@if (!empty($pengaturan)) {{ $pengaturan->telepon }} @endif"
+                            class="theme-btn">Hubungi Kami</a>
                     </div>
                 </div>
             </div>
@@ -93,14 +109,22 @@
                 <div class="col-lg-4 col-md-4">
                     <div class="single-info">
                         <i class="icofont-map-pins"></i>
-                        <p>@if (!empty($pengaturan)) {{ $pengaturan->alamat }} @endif</p>
+                        <p>
+                            @if (!empty($pengaturan))
+                                {{ $pengaturan->alamat }}
+                            @endif
+                        </p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <div class="single-info cl2">
                         <i class="icofont-envelope"></i>
                         <p>
-                            <a href="mailto:@if (!empty($pengaturan)) {{ $pengaturan->email }} @endif">@if (!empty($pengaturan)) {{ $pengaturan->email }} @endif</a>
+                            <a href="mailto:@if (!empty($pengaturan)) {{ $pengaturan->email }} @endif">
+                                @if (!empty($pengaturan))
+                                    {{ $pengaturan->email }}
+                                @endif
+                            </a>
                         </p>
                     </div>
                 </div>
@@ -109,7 +133,11 @@
                     <div class="single-info cl3">
                         <i class="icofont-mobile-phone"></i>
                         <div class="info-details text-white">
-                            <p><a href="tel:@if (!empty($pengaturan)) {{ $pengaturan->telepon }} @endif">@if (!empty($pengaturan)) {{ $pengaturan->telepon }} @endif</a></p>
+                            <p><a href="tel:@if (!empty($pengaturan)) {{ $pengaturan->telepon }} @endif">
+                                    @if (!empty($pengaturan))
+                                        {{ $pengaturan->telepon }}
+                                    @endif
+                                </a></p>
                         </div>
                     </div>
                 </div>

@@ -21,16 +21,28 @@
                 <span>Pembelian</span>
             </a>
         </li>
-        <li class="">
-            <a href="#">
+        <li class="@if ($title == 'penjualan') mm-active @endif">
+            <a href="{{ route('penjualan') }}">
                 <img src="/back/img/menu-icon/3.svg" alt>
                 <span>Penjualan</span>
             </a>
         </li>
-        <li class="">
-            <a href="#">
+
+        <li class="@if ($title == 'transaksi-pembelian' || $title == 'transaksi-penjualan') mm-active @endif">
+            <a class="has-arrow" href="#" aria-expanded="false">
                 <img src="/back/img/menu-icon/3.svg" alt>
                 <span>Transaksi</span>
+            </a>
+            <ul>
+                <li><a class="@if ($title == 'transaksi-pembelian') active @endif" href="{{ route('transaksi-pembelian') }}">Pembelian</a></li>
+                <li><a class="@if ($title == 'transaksi-penjualan') active @endif" href="{{ route('transaksi-penjualan') }}">Penjualan</a></li>
+            </ul>
+        </li>
+
+        <li class="@if ($title == 'validasi') mm-active @endif">
+            <a href="{{ route('validasi-penjualan') }}">
+                <img src="/back/img/menu-icon/3.svg" alt>
+                <span>Validasi Penjualan</span>
             </a>
         </li>
 
@@ -49,8 +61,8 @@
                 <span>Obat</span>
             </a>
         </li>
-        <li class="">
-            <a href="#">
+        <li class="@if ($title == 'akun') mm-active @endif">
+            <a href="{{ route('akun') }}">
                 <img src="/back/img/menu-icon/3.svg" alt>
                 <span>Akun</span>
             </a>

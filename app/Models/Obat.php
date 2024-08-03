@@ -15,7 +15,8 @@ class Obat extends Model
         'nama_obat',
         'jenis_obat',
         'harga',
-        'photo'
+        'photo',
+        'keterangan'
     ];
 
     public function stok(){

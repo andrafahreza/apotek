@@ -5,7 +5,7 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Login</title>
+    <title>Register</title>
     <link rel="icon" href="/front/assets/logo.png" type="image/png">
     <link rel="stylesheet" href="/back/css/bootstrap1.min.css" />
     <link rel="stylesheet" href="/back/vendors/themefy_icon/themify-icons.css" />
@@ -23,7 +23,7 @@
                         <div class="col-lg-4 mt-5">
                             <div class="modal-content cs_modal">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Log in</h5>
+                                    <h5 class="modal-title">Register</h5>
                                 </div>
                                 <div class="modal-body">
                                     @if ($errors->any())
@@ -38,12 +38,19 @@
                                         </div>
                                     @endif
 
-                                    <form action="{{ route('auth') }}" method="POST">
+                                    <form action="{{ route('regis') }}" method="POST">
                                         @csrf
+                                        <input name="name" type="text" class="form-control" placeholder="Nama" required>
                                         <input name="email" type="text" class="form-control" placeholder="Email" required>
                                         <input name="password" type="password" class="form-control" placeholder="Password" required>
-                                        <button class="btn_1 full_width text-center" type="submit">Log in</button>
-                                        <p>Belum punya akun? <a data-bs-toggle="modal" data-bs-target="#sing_up" data-bs-dismiss="modal" href="{{ route('register') }}"> Daftar</a></p>
+                                        <input name="telepon" type="text" class="form-control" placeholder="Telepon" required>
+                                        <select class="form-control" name="jenis_kelamin" required>
+                                            <option value="Laki-Laki">Laki-Laki</option>
+                                            <option value="Perempuan">Perempuan</option>
+                                        </select> <br>
+                                        <textarea class="form-control" name="alamat" placeholder="Alamat" required></textarea>
+                                        <button class="btn_1 full_width text-center" type="submit">Register</button>
+                                        <p>Sudah punya akun? <a data-bs-toggle="modal" data-bs-target="#sing_up" data-bs-dismiss="modal" href="{{ route('login') }}"> Login</a></p>
                                     </form>
                                 </div>
                             </div>

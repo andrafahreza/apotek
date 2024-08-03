@@ -36,7 +36,8 @@ class ObatController extends Controller
             $data = [
                 "nama_obat" => $request->nama_obat,
                 "jenis_obat" => $request->jenis_obat,
-                "harga" => $request->harga
+                "harga" => $request->harga,
+                "keterangan" => $request->keterangan,
             ];
 
             if ($id != null) {
@@ -88,6 +89,25 @@ class ObatController extends Controller
     public function show($id = null)
     {
         $data = Obat::findOrFail($id);
+
+        try {
+            return response()->json([
+                'alert' => 1,
+                'data' => $data
+            ]);
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            return response()->json([
+                'alert' => 0,
+                'message' => "Terjadi kesalahan: $message"
+            ]);
+        }
+    }
+
+    public function show_stok($id = null)
+    {
+        $obat = Obat::findOrFail($id);
+        $data = Persediaan::where('obat_id', $obat->id)->sum('jumlah_obat');
 
         try {
             return response()->json([

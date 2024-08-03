@@ -42,13 +42,13 @@
                                                         <div class="feet-img">
                                                             <img src="{{ $obat->photo }}" alt="">
                                                         </div>
-                                                        <a class="love" href="#"><i class="far fa-heart"></i></a>
-                                                        <div class="fetured-btn"></div>
+                                                        <span style="width: auto; padding-right: 5px; padding-left: 5px;">{{ $obat->jenis_obat }} </span>
                                                     </div>
                                                     <div class="fecure-containt">
                                                         <h3>{{ $obat->nama_obat }}</h3>
+                                                        <h5>{!! $obat->keterangan !!}</h5>
                                                         <h4>Rp. {{ number_format($obat->harga) }}</h4>
-                                                        <a href="#" class="theme-btn">Tambah Keranjang</a>
+                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -60,13 +60,13 @@
                                                         <div class="feet-img">
                                                             <img src="{{ $obat->photo }}" alt="">
                                                         </div>
-                                                        <a class="love" href="#"><i class="far fa-heart"></i></a>
-                                                        <div class="fetured-btn"></div>
+                                                        <span style="width: auto; padding-right: 5px; padding-left: 5px;">{{ $obat->jenis_obat }} </span>
                                                     </div>
                                                     <div class="fecure-containt">
                                                         <h3>{{ $obat->nama_obat }}</h3>
+                                                        <h5>{!! $obat->keterangan !!}</h5>
                                                         <h4>Rp. {{ number_format($obat->harga) }}</h4>
-                                                        <a href="#" class="theme-btn">Tambah Keranjang</a>
+                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -85,13 +85,13 @@
                                                         <div class="feet-img">
                                                             <img src="{{ $obat->photo }}" alt="">
                                                         </div>
-                                                        <a class="love" href="#"><i class="far fa-heart"></i></a>
-                                                        <div class="fetured-btn"></div>
+                                                        <span style="width: auto; padding-right: 5px; padding-left: 5px;">{{ $obat->jenis_obat }} </span>
                                                     </div>
                                                     <div class="fecure-containt">
                                                         <h3>{{ $obat->nama_obat }}</h3>
+                                                        <h5>{!! $obat->keterangan !!}</h5>
                                                         <h4>Rp. {{ number_format($obat->harga) }}</h4>
-                                                        <a href="#" class="theme-btn">Tambah ke Keranjang</a>
+                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -110,13 +110,13 @@
                                                         <div class="feet-img">
                                                             <img src="{{ $obat->photo }}" alt="">
                                                         </div>
-                                                        <a class="love" href="#"><i class="far fa-heart"></i></a>
-                                                        <div class="fetured-btn"></div>
+                                                        <span style="width: auto; padding-right: 5px; padding-left: 5px;">{{ $obat->jenis_obat }} </span>
                                                     </div>
                                                     <div class="fecure-containt">
                                                         <h3>{{ $obat->nama_obat }}</h3>
+                                                        <h5>{!! $obat->keterangan !!}</h5>
                                                         <h4>Rp. {{ number_format($obat->harga) }}</h4>
-                                                        <a href="#" class="theme-btn">Tambah ke Keranjang</a>
+                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
                                                     </div>
                                                 </div>
                                             </div>

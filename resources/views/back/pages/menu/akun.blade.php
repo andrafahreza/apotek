@@ -4,12 +4,12 @@
     <div class="col-12">
         <div class="QA_section">
             <div class="white_box_tittle list_header">
-                <h4>Data Obat</h4>
+                <h4>Data Akun</h4>
                 <div class="box_right d-flex lms_block">
                     <div class="serach_field_2">
                         <div class="search_inner">
                             <div class="search_field">
-                                <input id="search" type="text" placeholder="Cari...">
+                                <input id="search" type="text" placeholder="Cari Email...">
                             </div>
                             <button type="button" id="btnSearch"> <i class="ti-search"></i> </button>
                         </div>
@@ -37,11 +37,12 @@
                     <thead>
                         <tr>
                             <th scope="col">#ID</th>
-                            <th scope="col">Nama Obat</th>
-                            <th scope="col">Jenis</th>
-                            <th scope="col">Harga</th>
-                            <th scope="col">Keterangan</th>
-                            <th scope="col">Stok</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Telepon</th>
+                            <th scope="col">Jenis Kelamin</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Alamat</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -49,24 +50,18 @@
                         @foreach ($data as $item)
                             <tr>
                                 <th scope="row">#{{ $item->id }}</th>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->email }}</td>
+                                <td>{{ $item->telepon }}</td>
+                                <td>{{ $item->jenis_kelamin }}</td>
+                                <td>{{ $item->role }}</td>
+                                <td>{{ $item->alamat }}</td>
                                 <td>
-                                    {{ $item->nama_obat }}
-                                    <br>
-                                    <a href="{{ $item->photo }}" target="_blank">
-                                        <img src="{{ $item->photo }}" width="200">
-                                    </a>
-                                </td>
-                                <td>{{ $item->jenis_obat }}</td>
-                                <td>Rp. {{ number_format($item->harga) }}</td>
-                                <td>{!! $item->keterangan !!}</td>
-                                <td>
-                                    <a class="btn btn-sm btn-success text-white" href="{{ route('obat-stok', ['id' => $item->id]) }}">
-                                        {{ number_format($item->stok->sum('jumlah_obat')) }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-primary" onclick="detail({{ $item->id }})" id="btnDetail">Detail</button>
-                                    <button type="button" class="btn btn-sm btn-danger" onclick="hapus({{ $item->id }})" id="btnHapus">Hapus</button>
+                                    @if ($item->id != Auth::user()->id)
+                                        <button type="button" class="btn btn-sm btn-primary" onclick="detail({{ $item->id }})" id="btnDetail">Detail</button>
+                                        <a href="{{ route('akun-reset', ['id' => $item->id]) }}" class="btn btn-sm btn-warning" >Reset Password</a>
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="hapus({{ $item->id }})" id="btnHapus">Hapus</button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -79,7 +74,7 @@
     <div class="modal fade modalForm" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
-                <form action="{{ route('obat-simpan') }}" method="POST" id="formData" enctype="multipart/form-data">
+                <form action="{{ route('akun-simpan') }}" method="POST" id="formData">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalFullscreenLabel">Simpan Data</h5>
@@ -93,28 +88,35 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label>Nama Obat <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="nama_obat" id="nama_obat" placeholder="Masukkan Nama Obat" required>
+                                <label>Nama <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Masukkan Nama" required>
                             </div>
                             <div class="col-md-12 mt-4">
-                                <label>Photo Obat <span class="text-danger">*</span></label>
-                                <input type="file" class="form-control" name="photo" id="photo" required>
+                                <label>Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" name="email" id="email" required>
                             </div>
                             <div class="col-md-12 mt-4">
-                                <label>Jenis <span class="text-danger">*</span></label>
-                                <select class="form-control" name="jenis_obat" id="jenis_obat" required>
-                                    <option value="">Pilih Jenis Obat</option>
-                                    <option value="obat dengan resep dokter">Obat dengan resep dokter</option>
-                                    <option value="obat tanpa resep dokter">Obat tanpa resep dokter</option>
+                                <label>Telepon <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="telepon" id="telepon" required>
+                            </div>
+                            <div class="col-md-12 mt-4">
+                                <label>Jenis Kelamin <span class="text-danger">*</span></label>
+                                <select class="form-control" name="jenis_kelamin" id="jenis_kelamin" required>
+                                    <option value="Laki-Laki">Laki-Laki</option>
+                                    <option value="Perempuan">Perempuan</option>
                                 </select>
                             </div>
                             <div class="col-md-12 mt-4">
-                                <label>Harga <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" name="harga" id="harga" required>
+                                <label>Role<span class="text-danger">*</span></label>
+                                <select class="form-control" name="role" id="role" required>
+                                    <option value="admin">Admin</option>
+                                    <option value="customer">Customer</option>
+                                    <option value="pemilik">Pemilik</option>
+                                </select>
                             </div>
                             <div class="col-md-12 mt-4">
-                                <label>Keterangan Obat <span class="text-danger">*</span></label>
-                                <textarea class="form-control" name="keterangan" id="keterangan" required></textarea>
+                                <label>Alamat<span class="text-danger">*</span></label>
+                                <textarea class="form-control" name="alamat" id="alamat" required></textarea>
                             </div>
                         </div>
                     </div>
@@ -136,7 +138,7 @@
                         <h4 class="mb-3">Hapus Data!</h4>
                         <p class="text-muted mb-4"> Yakin ingin menghapus ini? </p>
                         <div class="hstack gap-2 justify-content-center">
-                            <form action="{{ route('obat-hapus') }}" method="POST">
+                            <form action="{{ route('akun-hapus') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="id" id="hapus_id">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
@@ -161,13 +163,13 @@
 
         $('#btnSearch').on('click', function() {
             var search = $('#search').val();
-            var url = "{{ route('obat') }}" + "/" + search;
+            var url = "{{ route('akun') }}" + "/" + search;
             window.location = url;
         })
 
         function detail(id) {
             $('#formData')[0].reset();
-            var url = "{{ route('obat-show') }}" + "/" + id;
+            var url = "{{ route('akun-show') }}" + "/" + id;
 
             $.ajax({
                 type: "get",
@@ -181,11 +183,13 @@
 
                         const data = response.data;
                         $('#formData')[0].reset();
-                        $('#formData').attr("action", "{{ route('obat-simpan') }}" + "/" + data.id);
-                        $('#nama_obat').val(data.nama_obat);
-                        $('#jenis_obat').val(data.jenis_obat);
-                        $('#harga').val(data.harga);
-                        $('#keterangan').val(data.keterangan);
+                        $('#formData').attr("action", "{{ route('akun-simpan') }}" + "/" + data.id);
+                        $('#name').val(data.name);
+                        $('#email').val(data.email);
+                        $('#telepon').val(data.telepon);
+                        $('#jenis_kelamin').val(data.jenis_kelamin);
+                        $('#role').val(data.role);
+                        $('#alamat').val(data.alamat);
                     } else {
                         $("#formData :input").prop("disabled", true);
                         $('#errorMessage').removeClass('d-none');

@@ -13,7 +13,7 @@
                             <p>{{ strtoupper(Auth::user()->role) }}</p>
                             <h5>{{ Auth::user()->name }}</h5>
                             <div class="profile_info_details">
-                                <a href="#">My Profile <i class="ti-user"></i></a>
+                                <a href="{{ route('profile-admin') }}">My Profile <i class="ti-user"></i></a>
                                 <a href="{{ route('logout') }}">Log Out <i class="ti-shift-left"></i></a>
                             </div>
                         </div>

@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Obat;
 use App\Models\Pengaturan;
+use App\Models\Penjualan;
+use App\Models\Persediaan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FrontController extends Controller
 {
@@ -20,5 +24,100 @@ class FrontController extends Controller
     public function login()
     {
         return view('back.login');
+    }
+
+    public function register()
+    {
+        return view('back.register');
+    }
+
+    public function beli($id = null)
+    {
+        $obat = Obat::findOrFail($id);
+        $stok = Persediaan::where('obat_id', $obat->id)->sum('jumlah_obat');
+
+        return view('front.beli', compact('obat', 'stok'));
+    }
+
+    public function pembayaran(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $request->validate([
+                'total_bayar' => 'required',
+            ]);
+
+            if ($request->stok < $request->jumlah_obat) {
+                throw new \Exception("Stok obat tidak mencukupi");
+            }
+
+            $data = [
+                "user_id" => Auth::user()->id,
+                "obat_id" => $request->obat_id,
+                "nomor_pembelian" => "unknown",
+                "jumlah_obat" => $request->jumlah_obat,
+                "total_bayar" => $request->total_bayar,
+                "pembayaran" => "transfer",
+                "status_pembayaran" => "menunggu",
+                "status_pembelian" => "menunggu",
+                'kurir' => $request->kurir
+            ];
+
+            $request->validate([
+                'bukti_transfer' => 'required|image|mimes:jpeg,png,jpg',
+            ]);
+
+            $imageName = time().'.'.$request->bukti_transfer->extension();
+            $request->bukti_transfer->move(public_path('/bukti_transfer/'), $imageName);
+            $data['bukti_transfer'] = "/bukti_transfer/$imageName";
+
+            $penjualan = Penjualan::create($data);
+
+            if (!$penjualan->save()) {
+                throw new \Exception("Terjadi kesalahan, silahkan coba lagi");
+            }
+
+            $persediaan = Persediaan::where('obat_id', $request->obat_id)->where('jumlah_obat', '>', 0)->get();
+
+            $sisa = $request->jumlah_obat;
+            foreach ($persediaan as $value) {
+                if ($value->jumlah_obat < $sisa) {
+                    $stok = Persediaan::find($value->id);
+                    $sisa -= $stok->jumlah_obat;
+
+                    $stok->jumlah_obat = 0;
+                    if (!$stok->update()) {
+                        throw new \Exception("Gagal memperbarui stok obat, silahkan coba lagi");
+                    }
+                } else {
+                    $stok = Persediaan::find($value->id);
+                    $stok->jumlah_obat = $stok->jumlah_obat - $sisa;
+                    if (!$stok->update()) {
+                        throw new \Exception("Gagal memperbarui stok obat, silahkan coba lagi");
+                    }
+                    break;
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('riwayat-pembelian-customer')->with("success", "Berhasil menyimpan data");
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->withErrors($th->getMessage());
+        }
+    }
+
+    public function riwayat()
+    {
+        $data = Penjualan::where('user_id', Auth::user()->id)->latest()->get();
+
+        return view('front.riwayat', compact('data'));
+    }
+
+    public function profile()
+    {
+        return view('front.profile');
     }
 }
