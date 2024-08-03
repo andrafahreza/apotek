@@ -9,6 +9,7 @@ use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RekeningController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -76,6 +77,13 @@ Route::middleware('auth')->group(function() {
         Route::prefix("pengaturan")->group(function() {
             Route::get('/', [PengaturanController::class, 'index'])->name("pengaturan");
             Route::post('simpan', [PengaturanController::class, 'simpan'])->name("pengaturan-simpan");
+        });
+
+        Route::prefix("rekening")->group(function() {
+            Route::get('/', [RekeningController::class, 'index'])->name("rekening");
+            Route::get('show/{id?}', [RekeningController::class, 'show'])->name("rekening-show");
+            Route::post('hapus', [RekeningController::class, 'hapus'])->name("rekening-hapus");
+            Route::post('simpan/{id?}', [RekeningController::class, 'simpan'])->name("rekening-simpan");
         });
 
         Route::prefix("akun")->group(function() {

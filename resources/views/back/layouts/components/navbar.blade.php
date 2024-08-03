@@ -73,5 +73,11 @@
                 <span>Pengaturan</span>
             </a>
         </li>
+        <li class="@if ($title == 'rekening') mm-active @endif">
+            <a href="{{ route('rekening') }}">
+                <img src="/back/img/menu-icon/3.svg" alt>
+                <span>Rekening</span>
+            </a>
+        </li>
     </ul>
 </nav>

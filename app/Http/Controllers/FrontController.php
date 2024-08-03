@@ -6,6 +6,7 @@ use App\Models\Obat;
 use App\Models\Pengaturan;
 use App\Models\Penjualan;
 use App\Models\Persediaan;
+use App\Models\Rekening;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -35,8 +36,9 @@ class FrontController extends Controller
     {
         $obat = Obat::findOrFail($id);
         $stok = Persediaan::where('obat_id', $obat->id)->sum('jumlah_obat');
+        $rekening = Rekening::get();
 
-        return view('front.beli', compact('obat', 'stok'));
+        return view('front.beli', compact('obat', 'stok', 'rekening'));
     }
 
     public function pembayaran(Request $request)

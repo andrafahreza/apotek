@@ -48,6 +48,13 @@
                                     <div class="single-re-input">
                                         <label for="total_bayar">Bukti Pembayaran*</label>
                                         <input type="file" name="bukti_transfer" id="bukti_transfer" required>
+                                        <br>
+                                        <ul>
+                                            @foreach ($rekening as $rek)
+                                            <li>{{ $rek->nama_rekening }} : {{ $rek->no_rekening }} Atas Nama {{ $rek->atas_nama }}</li>
+
+                                            @endforeach
+                                        </ul>
                                     </div>
                                     <div class="single-re-input">
                                         <label for="kurir">Kurir* <br> <small>Biaya kurir ditanggung oleh pembeli</small></label>
