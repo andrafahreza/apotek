@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Obat;
+use App\Models\Pemesanan;
 use App\Models\Pengaturan;
 use App\Models\Penjualan;
 use App\Models\Persediaan;
@@ -39,6 +40,14 @@ class FrontController extends Controller
         $rekening = Rekening::get();
 
         return view('front.beli', compact('obat', 'stok', 'rekening'));
+    }
+
+    public function pesan($id = null)
+    {
+        $obat = Obat::findOrFail($id);
+        $stok = Persediaan::where('obat_id', $obat->id)->sum('jumlah_obat');
+
+        return view('front.pesan', compact('obat', 'stok'));
     }
 
     public function pembayaran(Request $request)
@@ -105,6 +114,71 @@ class FrontController extends Controller
             DB::commit();
 
             return redirect()->route('riwayat-pembelian-customer')->with("success", "Berhasil menyimpan data");
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->withErrors($th->getMessage());
+        }
+    }
+
+    public function pemesanan()
+    {
+        $data = Pemesanan::where('user_id', Auth::user()->id)->latest()->get();
+
+        return view('front.pemesanan', compact('data'));
+    }
+
+    public function pemesanan_customer(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $request->validate([
+                'harga' => 'required',
+            ]);
+
+            if ($request->stok < $request->jumlah_obat) {
+                throw new \Exception("Stok obat tidak mencukupi");
+            }
+
+            $data = [
+                "user_id" => Auth::user()->id,
+                "obat_id" => $request->obat_id,
+                "jumlah" => $request->jumlah,
+                "harga" => $request->harga,
+                "status" => "menunggu",
+            ];
+
+            $pemesanan = Pemesanan::create($data);
+
+            if (!$pemesanan->save()) {
+                throw new \Exception("Terjadi kesalahan, silahkan coba lagi");
+            }
+
+            $persediaan = Persediaan::where('obat_id', $request->obat_id)->where('jumlah_obat', '>', 0)->get();
+
+            $sisa = $request->jumlah_obat;
+            foreach ($persediaan as $value) {
+                if ($value->jumlah_obat < $sisa) {
+                    $stok = Persediaan::find($value->id);
+                    $sisa -= $stok->jumlah_obat;
+
+                    $stok->jumlah_obat = 0;
+                    if (!$stok->update()) {
+                        throw new \Exception("Gagal memperbarui stok obat, silahkan coba lagi");
+                    }
+                } else {
+                    $stok = Persediaan::find($value->id);
+                    $stok->jumlah_obat = $stok->jumlah_obat - $sisa;
+                    if (!$stok->update()) {
+                        throw new \Exception("Gagal memperbarui stok obat, silahkan coba lagi");
+                    }
+                    break;
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('pemesanan-customer')->with("success", "Berhasil menyimpan data");
         } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->back()->withErrors($th->getMessage());

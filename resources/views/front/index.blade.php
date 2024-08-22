@@ -49,6 +49,7 @@
                                                         <h5>{!! $obat->keterangan !!}</h5>
                                                         <h4>Rp. {{ number_format($obat->harga) }}</h4>
                                                         <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
+                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('pesan', ['id' => $obat->id]) }} @endif" class="theme-btn">Pesan</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -67,6 +68,7 @@
                                                         <h5>{!! $obat->keterangan !!}</h5>
                                                         <h4>Rp. {{ number_format($obat->harga) }}</h4>
                                                         <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
+                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('pesan', ['id' => $obat->id]) }} @endif" class="theme-btn">Pesan</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -92,6 +94,7 @@
                                                         <h5>{!! $obat->keterangan !!}</h5>
                                                         <h4>Rp. {{ number_format($obat->harga) }}</h4>
                                                         <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
+                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('pesan', ['id' => $obat->id]) }} @endif" class="theme-btn">Pesan</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -117,6 +120,7 @@
                                                         <h5>{!! $obat->keterangan !!}</h5>
                                                         <h4>Rp. {{ number_format($obat->harga) }}</h4>
                                                         <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
+                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('pesan', ['id' => $obat->id]) }} @endif" class="theme-btn">Pesan</a>
                                                     </div>
                                                 </div>
                                             </div>

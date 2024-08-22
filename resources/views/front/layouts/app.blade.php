@@ -70,6 +70,9 @@
                             <li class="dropdown ">
                                 <a href="{{ route('riwayat-pembelian-customer') }}">Riwayat Pembelian</a>
                             </li>
+                            <li class="dropdown ">
+                                <a href="{{ route('pemesanan-customer') }}">Riwayat Pemesanan</a>
+                            </li>
                             <li class="dropdown">
                                 <a><i class="fas fa-user-circle"></i> {{ Auth::user()->name }}</a><i class="fa fa-chevron-down"></i>
                                 <ul class="dropdown-submenu">

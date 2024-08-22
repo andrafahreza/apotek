@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\PembelianController;
+use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProfileController;
@@ -22,8 +23,11 @@ Route::post('register', [AuthController::class, 'regis'])->name('regis');
 Route::middleware('auth')->group(function() {
     Route::get('/logout', [AuthController::class, 'logout'])->name("logout");
     Route::get('/profile-customer', [FrontController::class, 'profile'])->name("profile-customer");
+    Route::get('/pemesanan', [FrontController::class, 'pemesanan'])->name("pemesanan-customer");
+    Route::post('/pemesanan', [FrontController::class, 'pemesanan_customer'])->name("pemesanan-customer-action");
     Route::get('/riwayat', [FrontController::class, 'riwayat'])->name("riwayat-pembelian-customer");
     Route::get('/beli/{id?}', [FrontController::class, 'beli'])->name("beli");
+    Route::get('/pesan/{id?}', [FrontController::class, 'pesan'])->name("pesan");
     Route::post('/pembayaran-customer', [FrontController::class, 'pembayaran'])->name("pembayaran-customer");
     Route::post('profile-admin', [ProfileController::class, 'simpan_profile_admin'])->name("profile-admin-simpan");
     Route::post('profile-admin/ganti-password', [ProfileController::class, 'ganti_password'])->name("ganti-password");
@@ -55,6 +59,12 @@ Route::middleware('auth')->group(function() {
             Route::get('/', [PenjualanController::class, 'validasi_penjualan'])->name("validasi-penjualan");
             Route::post('tolak', [PenjualanController::class, 'validasi_tolak'])->name("validasi-tolak");
             Route::post('terima', [PenjualanController::class, 'validasi_terima'])->name("validasi-terima");
+        });
+
+        Route::prefix("validasi-pemesanan")->group(function() {
+            Route::get('/', [PemesananController::class, 'validasi_pemesanan'])->name("validasi-pemesanan");
+            Route::post('tolak', [PemesananController::class, 'validasi_tolak'])->name("validasi-pemesanan-tolak");
+            Route::post('terima', [PemesananController::class, 'validasi_terima'])->name("validasi-pemesanan-terima");
 
         });
 

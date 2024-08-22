@@ -46,6 +46,13 @@
             </a>
         </li>
 
+        <li class="@if ($title == 'validasi-pemesanan') mm-active @endif">
+            <a href="{{ route('validasi-pemesanan') }}">
+                <img src="/back/img/menu-icon/3.svg" alt>
+                <span>Validasi Pemesanan</span>
+            </a>
+        </li>
+
         <li class="side_menu_title">
             <span>DATA MASTER</span>
         </li>
