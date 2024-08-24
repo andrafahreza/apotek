@@ -34,11 +34,23 @@
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="headr-bar-right">
-                            <a href="tel:123456789">
+                            <a href="tel:{{ $pengaturan->telepon }}">
                                 @if (!empty($pengaturan))
                                     {{ $pengaturan->telepon }}
                                 @endif
                             </a>
+                            <div class="serch-fl">
+                                <a class="ccdda" href="#"><i class="fas fa-search"></i></a>
+                            </div>
+                            <a href="#"><i class="fas fa-shopping-cart"></i></a>
+                        </div>
+                        <div class="searchh ccfdf">
+                            <form id="search" method="post" action="{{ route('search') }}">
+                                @csrf
+                                <input type="text" name="search" placeholder="Search">
+                                <button type="submit" class="sbtn">Search Now</button>
+                                <a href="javascript:void(0)" class="srch"><i class="far fa-search"></i></a>
+                            </form>
                         </div>
                     </div>
                 </div>

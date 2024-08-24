@@ -15,6 +15,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontController::class, 'index'])->name('index');
+Route::post('search', [FrontController::class, 'search'])->name('search');
 Route::get('login', [FrontController::class, 'login'])->name('login')->middleware('guest');
 Route::post('login', [AuthController::class, 'auth'])->name('auth');
 Route::get('register', [FrontController::class, 'register'])->name('register');

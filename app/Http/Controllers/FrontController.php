@@ -23,6 +23,16 @@ class FrontController extends Controller
         return view('front.index', compact('obatDokter', 'obatBiasa', 'pengaturan'));
     }
 
+    public function search(Request $request)
+    {
+        $search = $request->search;
+        $obatDokter = Obat::where('jenis_obat', 'obat dengan resep dokter')->where('nama_obat', 'like', "%$search%")->get();
+        $obatBiasa = Obat::where('jenis_obat', 'obat tanpa resep dokter')->where('nama_obat', 'like', "%$search%")->get();
+        $pengaturan = Pengaturan::first();
+
+        return view('front.index', compact('obatDokter', 'obatBiasa', 'pengaturan'));
+    }
+
     public function login()
     {
         return view('back.login');
