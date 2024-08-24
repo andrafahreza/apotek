@@ -30,6 +30,7 @@
                             <p>{!! $obat->keterangan !!}</p>
                             <div class="zoom-df zomm-ll">
                                 <h3>Stok: {{ $stok }}</h3>
+                                <h3>Tipe Obat: {{ $obat->tipe_obat }}</h3>
                             </div>
                             <div class="re-form">
                                 <form action="{{ route('pemesanan-customer-action') }}" method="POST" enctype="multipart/form-data">

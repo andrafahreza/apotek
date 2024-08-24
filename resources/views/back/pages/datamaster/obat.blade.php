@@ -109,6 +109,17 @@
                                 </select>
                             </div>
                             <div class="col-md-12 mt-4">
+                                <label>Tipe <span class="text-danger">*</span></label>
+                                <select class="form-control" name="tipe_obat" id="tipe_obat" required>
+                                    <option value="">Pilih Tipe Obat</option>
+                                    <option value="Kapsul">Kapsul</option>
+                                    <option value="Cair">Cair</option>
+                                    <option value="Tablet">Tablet</option>
+                                    <option value="Oles">Oles</option>
+                                    <option value="Tetes">Tetes</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12 mt-4">
                                 <label>Harga <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" name="harga" id="harga" required>
                             </div>
@@ -186,6 +197,7 @@
                         $('#jenis_obat').val(data.jenis_obat);
                         $('#harga').val(data.harga);
                         $('#keterangan').val(data.keterangan);
+                        $('#tipe_obat').val(data.tipe_obat);
                     } else {
                         $("#formData :input").prop("disabled", true);
                         $('#errorMessage').removeClass('d-none');

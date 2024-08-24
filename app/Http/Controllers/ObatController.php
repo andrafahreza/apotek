@@ -38,6 +38,7 @@ class ObatController extends Controller
                 "jenis_obat" => $request->jenis_obat,
                 "harga" => $request->harga,
                 "keterangan" => $request->keterangan,
+                "tipe_obat" => $request->tipe_obat,
             ];
 
             if ($id != null) {

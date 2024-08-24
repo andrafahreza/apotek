@@ -18,6 +18,11 @@
     @stack('styles')
 </head>
 
+@php
+    use App\Models\Pengaturan;
+    $pengaturan = Pengaturan::first();
+@endphp
+
 <body class="home">
     <header class="header1">
         <div class="header-top-bar-area">
@@ -34,7 +39,7 @@
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="headr-bar-right">
-                            <a href="tel:{{ $pengaturan->telepon }}">
+                            <a href='tel:{{ !empty($pengaturan) ? $pengaturan->telepon : "" }}'>
                                 @if (!empty($pengaturan))
                                     {{ $pengaturan->telepon }}
                                 @endif
@@ -123,7 +128,7 @@
         <div class="container">
             <div class="row no-gutters">
                 <div class="col-lg-4 col-md-4">
-                    <a href="{{ $pengaturan->map }}" target="_blank">
+                    <a href="{{ !empty($pengaturan) ? $pengaturan->map : '' }}" target="_blank">
                         <div class="single-info">
                             <i class="icofont-map-pins"></i>
                             <p>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Obat;
 use App\Models\Pemesanan;
-use App\Models\Pengaturan;
 use App\Models\Penjualan;
 use App\Models\Persediaan;
 use App\Models\Rekening;
@@ -18,9 +17,8 @@ class FrontController extends Controller
     {
         $obatDokter = Obat::where('jenis_obat', 'obat dengan resep dokter')->get();
         $obatBiasa = Obat::where('jenis_obat', 'obat tanpa resep dokter')->get();
-        $pengaturan = Pengaturan::first();
 
-        return view('front.index', compact('obatDokter', 'obatBiasa', 'pengaturan'));
+        return view('front.index', compact('obatDokter', 'obatBiasa'));
     }
 
     public function search(Request $request)
@@ -28,9 +26,8 @@ class FrontController extends Controller
         $search = $request->search;
         $obatDokter = Obat::where('jenis_obat', 'obat dengan resep dokter')->where('nama_obat', 'like', "%$search%")->get();
         $obatBiasa = Obat::where('jenis_obat', 'obat tanpa resep dokter')->where('nama_obat', 'like', "%$search%")->get();
-        $pengaturan = Pengaturan::first();
 
-        return view('front.index', compact('obatDokter', 'obatBiasa', 'pengaturan'));
+        return view('front.index', compact('obatDokter', 'obatBiasa'));
     }
 
     public function login()
