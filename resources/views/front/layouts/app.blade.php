@@ -47,7 +47,7 @@
                             <div class="serch-fl">
                                 <a class="ccdda" href="#"><i class="fas fa-search"></i></a>
                             </div>
-                            <a href="#"><i class="fas fa-shopping-cart"></i></a>
+                            {{-- <a href="#"><i class="fas fa-shopping-cart"></i></a> --}}
                         </div>
                         <div class="searchh ccfdf">
                             <form id="search" method="post" action="{{ route('search') }}">
