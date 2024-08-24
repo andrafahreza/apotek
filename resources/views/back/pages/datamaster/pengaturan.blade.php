@@ -32,13 +32,21 @@
                                             <label>Nama Apotek</label>
                                             <input class="form-control" name="nama" value="@if (!empty($data)) {{ $data->nama }} @endif" required>
                                         </div>
-                                        <div class="col-md-12 mt-4">
+                                        <div class="col-md-6 mt-4">
                                             <label>Alamat</label>
                                             <input class="form-control" name="alamat" value="@if (!empty($data)) {{ $data->alamat }} @endif" required>
                                         </div>
-                                        <div class="col-md-12 mt-4">
+                                        <div class="col-md-6 mt-4">
+                                            <label>Link Map</label>
+                                            <input class="form-control" name="map" value="@if (!empty($data)) {{ $data->map }} @endif" required>
+                                        </div>
+                                        <div class="col-md-6 mt-4">
                                             <label>Telepon</label>
                                             <input class="form-control" name="telepon" value="@if (!empty($data)) {{ $data->telepon }} @endif" required>
+                                        </div>
+                                        <div class="col-md-6 mt-4">
+                                            <label>Nama Kontak</label>
+                                            <input class="form-control" name="nama_kontak" value="@if (!empty($data)) {{ $data->nama_kontak }} @endif" required>
                                         </div>
                                         <div class="col-md-12 mt-4">
                                             <label>Email</label>

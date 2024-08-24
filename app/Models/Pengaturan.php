@@ -15,6 +15,8 @@ class Pengaturan extends Model
         'nama',
         'alamat',
         'telepon',
-        'email'
+        'email',
+        'map',
+        'nama_kontak'
     ];
 }

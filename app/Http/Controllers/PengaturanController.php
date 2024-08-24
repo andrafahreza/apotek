@@ -28,6 +28,8 @@ class PengaturanController extends Controller
                 "alamat" => $request->alamat,
                 "telepon" => $request->telepon,
                 "email" => $request->email,
+                "map" => $request->map,
+                "nama_kontak" => $request->nama_kontak,
             ];
 
             if ($pengaturan != null) {

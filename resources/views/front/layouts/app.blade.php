@@ -74,7 +74,8 @@
                                 <a href="{{ route('pemesanan-customer') }}">Riwayat Pemesanan</a>
                             </li>
                             <li class="dropdown">
-                                <a><i class="fas fa-user-circle"></i> {{ Auth::user()->name }}</a><i class="fa fa-chevron-down"></i>
+                                <a><i class="fas fa-user-circle"></i> {{ Auth::user()->name }}</a><i
+                                    class="fa fa-chevron-down"></i>
                                 <ul class="dropdown-submenu">
                                     <li><a href="{{ route('profile-customer') }}">Profile</a></li>
                                     <li><a href="{{ route('logout') }}">Logout</a></li>
@@ -110,14 +111,16 @@
         <div class="container">
             <div class="row no-gutters">
                 <div class="col-lg-4 col-md-4">
-                    <div class="single-info">
-                        <i class="icofont-map-pins"></i>
-                        <p>
-                            @if (!empty($pengaturan))
-                                {{ $pengaturan->alamat }}
-                            @endif
-                        </p>
-                    </div>
+                    <a href="{{ $pengaturan->map }}" target="_blank">
+                        <div class="single-info">
+                            <i class="icofont-map-pins"></i>
+                            <p>
+                                @if (!empty($pengaturan))
+                                    {{ $pengaturan->alamat }}
+                                @endif
+                            </p>
+                        </div>
+                    </a>
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <div class="single-info cl2">
