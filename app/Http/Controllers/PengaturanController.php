@@ -30,6 +30,7 @@ class PengaturanController extends Controller
                 "email" => $request->email,
                 "map" => $request->map,
                 "nama_kontak" => $request->nama_kontak,
+                "profile" => $request->profile,
             ];
 
             if ($pengaturan != null) {

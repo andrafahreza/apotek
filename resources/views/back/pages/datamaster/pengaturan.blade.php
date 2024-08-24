@@ -49,6 +49,14 @@
                                             <input class="form-control" name="nama_kontak" value="@if (!empty($data)) {{ $data->nama_kontak }} @endif" required>
                                         </div>
                                         <div class="col-md-12 mt-4">
+                                            <label>Profile</label>
+                                            <textarea class="form-control" name="profile">
+                                                @if (!empty($data))
+                                                    {{ $data->profile }}
+                                                @endif
+                                            </textarea>
+                                        </div>
+                                        <div class="col-md-12 mt-4">
                                             <label>Email</label>
                                             <input type="email" class="form-control" name="email" value="@if (!empty($data)) {{ $data->email }} @endif" required>
                                             <br>

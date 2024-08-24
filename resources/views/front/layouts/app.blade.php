@@ -112,6 +112,7 @@
                 <div class="col-lg-12">
                     <div class="hero-containt">
                         <h3>Sistem Informasi <br> Penjualan Obat Apotek Fortuna </h3>
+                        <p>{{ !empty($pengaturan) ? $pengaturan->profile : "" }}</p>
                         <a href="tel:@if (!empty($pengaturan)) {{ $pengaturan->telepon }} @endif"
                             class="theme-btn">Hubungi Kami</a>
                     </div>
