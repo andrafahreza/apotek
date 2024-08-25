@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\PembelianController;
@@ -103,6 +104,13 @@ Route::middleware('auth')->group(function() {
             Route::get('reset-password/{id?}', [UserController::class, 'reset'])->name("akun-reset");
             Route::post('hapus', [UserController::class, 'hapus'])->name("akun-hapus");
             Route::post('simpan/{id?}', [UserController::class, 'simpan'])->name("akun-simpan");
+        });
+
+        Route::prefix("laporan")->group(function() {
+            Route::get('cetak-laporan/{from?}/{to?}/{jenis?}', [LaporanController::class, 'cetak'])->name("cetak-laporan");
+            Route::get('data-obat', [LaporanController::class, 'obat'])->name("laporan-obat");
+            Route::get('data-pembelian', [LaporanController::class, 'pembelian'])->name("laporan-pembelian");
+            Route::get('data-penjualan', [LaporanController::class, 'penjualan'])->name("laporan-penjualan");
         });
     });
 });

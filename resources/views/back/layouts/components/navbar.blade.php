@@ -86,5 +86,27 @@
                 <span>Rekening</span>
             </a>
         </li>
+
+        <li class="side_menu_title">
+            <span>LAPORAN</span>
+        </li>
+        <li class="@if ($title == 'laporan-obat') mm-active @endif">
+            <a href="{{ route('laporan-obat') }}">
+                <img src="/back/img/menu-icon/3.svg" alt>
+                <span>Data Obat</span>
+            </a>
+        </li>
+        <li class="@if ($title == 'laporan-pembelian') mm-active @endif">
+            <a href="{{ route('laporan-pembelian') }}">
+                <img src="/back/img/menu-icon/3.svg" alt>
+                <span>Data Pembelian</span>
+            </a>
+        </li>
+        <li class="@if ($title == 'laporan-penjualan') mm-active @endif">
+            <a href="{{ route('laporan-penjualan') }}">
+                <img src="/back/img/menu-icon/3.svg" alt>
+                <span>Data Penjualan</span>
+            </a>
+        </li>
     </ul>
 </nav>
