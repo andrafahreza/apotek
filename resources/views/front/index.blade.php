@@ -23,11 +23,13 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile"
-                                    role="tab" aria-controls="pills-profile" aria-selected="false">Obat dengan resep dokter</a>
+                                    role="tab" aria-controls="pills-profile" aria-selected="false">Obat dengan resep
+                                    dokter</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact"
-                                    role="tab" aria-controls="pills-contact" aria-selected="false">Obat tanpa resep dokter</a>
+                                    role="tab" aria-controls="pills-contact" aria-selected="false">Obat tanpa resep
+                                    dokter</a>
                             </li>
                         </ul>
                         <div class="tab-content" id="pills-tabContent">
@@ -37,40 +39,48 @@
                                     <div class="row">
                                         @foreach ($obatDokter as $obat)
                                             <div class="col-lg-3 col-md-4 col-sm-6">
-                                                <div class="single-featured">
-                                                    <div class="singl-top position-relative">
-                                                        <div class="feet-img">
-                                                            <img src="{{ $obat->photo }}" alt="">
+                                                <a href="{{ route('lihat-obat', ['id' => $obat->id]) }}">
+                                                    <div class="single-featured">
+                                                        <div class="singl-top position-relative">
+                                                            <div class="feet-img">
+                                                                <img src="{{ $obat->photo }}" alt="">
+                                                            </div>
+                                                            <span
+                                                                style="width: auto; padding-right: 5px; padding-left: 5px;">{{ $obat->jenis_obat }}
+                                                            </span>
                                                         </div>
-                                                        <span style="width: auto; padding-right: 5px; padding-left: 5px;">{{ $obat->jenis_obat }} </span>
+                                                        <div class="fecure-containt">
+                                                            <h3>{{ $obat->nama_obat }}</h3>
+                                                            <h5>{!! $obat->keterangan !!}</h5>
+                                                            <h4>Rp. {{ number_format($obat->harga) }}</h4>
+                                                            {{-- <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
+                                                            <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('pesan', ['id' => $obat->id]) }} @endif" class="theme-btn">Pesan</a> --}}
+                                                        </div>
                                                     </div>
-                                                    <div class="fecure-containt">
-                                                        <h3>{{ $obat->nama_obat }}</h3>
-                                                        <h5>{!! $obat->keterangan !!}</h5>
-                                                        <h4>Rp. {{ number_format($obat->harga) }}</h4>
-                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
-                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('pesan', ['id' => $obat->id]) }} @endif" class="theme-btn">Pesan</a>
-                                                    </div>
-                                                </div>
+                                                </a>
                                             </div>
                                         @endforeach
                                         @foreach ($obatBiasa as $obat)
                                             <div class="col-lg-3 col-md-4 col-sm-6">
-                                                <div class="single-featured">
-                                                    <div class="singl-top position-relative">
-                                                        <div class="feet-img">
-                                                            <img src="{{ $obat->photo }}" alt="">
+                                                <a href="{{ route('lihat-obat', ['id' => $obat->id]) }}">
+                                                    <div class="single-featured">
+                                                        <div class="singl-top position-relative">
+                                                            <div class="feet-img">
+                                                                <img src="{{ $obat->photo }}" alt="">
+                                                            </div>
+                                                            <span
+                                                                style="width: auto; padding-right: 5px; padding-left: 5px;">{{ $obat->jenis_obat }}
+                                                            </span>
                                                         </div>
-                                                        <span style="width: auto; padding-right: 5px; padding-left: 5px;">{{ $obat->jenis_obat }} </span>
+                                                        <div class="fecure-containt">
+                                                            <h3>{{ $obat->nama_obat }}</h3>
+                                                            <h5>{!! $obat->keterangan !!}</h5>
+                                                            <h4>Rp. {{ number_format($obat->harga) }}</h4>
+                                                            {{-- <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
+                                                            <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('pesan', ['id' => $obat->id]) }} @endif" class="theme-btn">Pesan</a> --}}
+                                                        </div>
                                                     </div>
-                                                    <div class="fecure-containt">
-                                                        <h3>{{ $obat->nama_obat }}</h3>
-                                                        <h5>{!! $obat->keterangan !!}</h5>
-                                                        <h4>Rp. {{ number_format($obat->harga) }}</h4>
-                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
-                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('pesan', ['id' => $obat->id]) }} @endif" class="theme-btn">Pesan</a>
-                                                    </div>
-                                                </div>
+                                                </a>
                                             </div>
                                         @endforeach
                                     </div>
@@ -82,21 +92,25 @@
                                     <div class="row">
                                         @foreach ($obatDokter as $obat)
                                             <div class="col-lg-3 col-md-4 col-sm-6">
-                                                <div class="single-featured">
-                                                    <div class="singl-top position-relative">
-                                                        <div class="feet-img">
-                                                            <img src="{{ $obat->photo }}" alt="">
+                                                <a href="{{ route('lihat-obat', ['id' => $obat->id]) }}">
+                                                    <div class="single-featured">
+                                                        <div class="singl-top position-relative">
+                                                            <div class="feet-img">
+                                                                <img src="{{ $obat->photo }}" alt="">
+                                                            </div>
+                                                            <span
+                                                                style="width: auto; padding-right: 5px; padding-left: 5px;">{{ $obat->jenis_obat }}
+                                                            </span>
                                                         </div>
-                                                        <span style="width: auto; padding-right: 5px; padding-left: 5px;">{{ $obat->jenis_obat }} </span>
+                                                        <div class="fecure-containt">
+                                                            <h3>{{ $obat->nama_obat }}</h3>
+                                                            <h5>{!! $obat->keterangan !!}</h5>
+                                                            <h4>Rp. {{ number_format($obat->harga) }}</h4>
+                                                            {{-- <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
+                                                            <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('pesan', ['id' => $obat->id]) }} @endif" class="theme-btn">Pesan</a> --}}
+                                                        </div>
                                                     </div>
-                                                    <div class="fecure-containt">
-                                                        <h3>{{ $obat->nama_obat }}</h3>
-                                                        <h5>{!! $obat->keterangan !!}</h5>
-                                                        <h4>Rp. {{ number_format($obat->harga) }}</h4>
-                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
-                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('pesan', ['id' => $obat->id]) }} @endif" class="theme-btn">Pesan</a>
-                                                    </div>
-                                                </div>
+                                                </a>
                                             </div>
                                         @endforeach
                                     </div>
@@ -108,21 +122,25 @@
                                     <div class="row">
                                         @foreach ($obatBiasa as $obat)
                                             <div class="col-lg-3 col-md-4 col-sm-6">
-                                                <div class="single-featured">
-                                                    <div class="singl-top position-relative">
-                                                        <div class="feet-img">
-                                                            <img src="{{ $obat->photo }}" alt="">
+                                                <a href="{{ route('lihat-obat', ['id' => $obat->id]) }}">
+                                                    <div class="single-featured">
+                                                        <div class="singl-top position-relative">
+                                                            <div class="feet-img">
+                                                                <img src="{{ $obat->photo }}" alt="">
+                                                            </div>
+                                                            <span
+                                                                style="width: auto; padding-right: 5px; padding-left: 5px;">{{ $obat->jenis_obat }}
+                                                            </span>
                                                         </div>
-                                                        <span style="width: auto; padding-right: 5px; padding-left: 5px;">{{ $obat->jenis_obat }} </span>
+                                                        <div class="fecure-containt">
+                                                            <h3>{{ $obat->nama_obat }}</h3>
+                                                            <h5>{!! $obat->keterangan !!}</h5>
+                                                            <h4>Rp. {{ number_format($obat->harga) }}</h4>
+                                                            {{-- <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
+                                                            <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('pesan', ['id' => $obat->id]) }} @endif" class="theme-btn">Pesan</a> --}}
+                                                        </div>
                                                     </div>
-                                                    <div class="fecure-containt">
-                                                        <h3>{{ $obat->nama_obat }}</h3>
-                                                        <h5>{!! $obat->keterangan !!}</h5>
-                                                        <h4>Rp. {{ number_format($obat->harga) }}</h4>
-                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('beli', ['id' => $obat->id]) }} @endif" class="theme-btn">Beli</a>
-                                                        <a href="@if (!Auth::check()) {{ route('login') }} @else {{ route('pesan', ['id' => $obat->id]) }} @endif" class="theme-btn">Pesan</a>
-                                                    </div>
-                                                </div>
+                                                </a>
                                             </div>
                                         @endforeach
                                     </div>
@@ -135,5 +153,4 @@
         </div>
     </div>
     <!--    featured-area-end-->
-
 @endsection

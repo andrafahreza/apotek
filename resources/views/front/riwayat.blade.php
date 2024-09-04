@@ -17,51 +17,99 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">#ID</th>
-                            <th scope="col">No Pembelian</th>
-                            <th scope="col">Obat</th>
-                            <th scope="col">Jumlah Obat</th>
-                            <th scope="col">Total Bayar</th>
-                            <th scope="col">Status Pembayaran</th>
-                            <th scope="col">Status Pembelian</th>
-                            <th scope="col">Kurir</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($data as $item)
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td>#{{ $item->id }}</td>
-                                <td>
-                                    @if ($item->nomor_pembelian == "unknown")
-                                        Belum dikonfirmasi
-                                    @else
-                                        {{ $item->nomor_pembelian }}
-                                    @endif
-                                </td>
-                                <td>
-                                    {{ $item->obat->nama_obat }}
-                                </td>
-                                <td>{{ $item->jumlah_obat }}</td>
-                                <td>Rp. {{ number_format($item->total_bayar) }}</td>
-                                <td>
-                                    @if ($item->status_pembayaran == "ditolak")
-                                        ditolak <br>
-                                        keterangan: {{ $item->keterangan }}
-                                    @else
-                                        {{ $item->status_pembayaran }}
-                                    @endif
-                                </td>
-                                <td>{{ $item->status_pembelian }}</td>
-                                <td>{{ $item->kurir }}</td>
+                                <th scope="col">#ID</th>
+                                <th scope="col">No Pembelian</th>
+                                <th scope="col">Obat</th>
+                                <th scope="col">Total Bayar</th>
+                                <th scope="col">Status Pembayaran</th>
+                                <th scope="col">Status Pembelian</th>
+                                <th scope="col">Kurir</th>
+                                <th scope="col">Aksi</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($data as $item)
+                                <tr>
+                                    <td>#{{ $item->id }}</td>
+                                    <td>
+                                        @if ($item->nomor_pembelian == "unknown")
+                                            Belum dikonfirmasi
+                                        @else
+                                            {{ $item->nomor_pembelian }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            @foreach ($item->keranjang->obat as $obat)
+                                                <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs)</li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>Rp. {{ number_format($item->keranjang->obat->sum('total_harga')) }}</td>
+                                    <td>
+                                        @if ($item->status_pembayaran == "ditolak")
+                                            ditolak <br>
+                                            keterangan: {{ $item->keterangan }}
+                                        @else
+                                            {{ $item->status_pembayaran }}
+                                        @endif
+                                        <br>
+                                        <a href="{{ $item->bukti_transfer }}" target="_blank">Lihat Bukti</a>
+                                    </td>
+                                    <td>
+                                        {{ $item->status_pembelian }}
+                                        @if ($item->status_pembelian == "sukses")
+                                            <br>
+                                            <a href="{{ route('cetak-struk', ['id' => $item->id]) }}" target="_blank">Cetak Struk</a>
+                                        @endif
+                                    </td>
+                                    <td>{{ $item->kurir }}</td>
+                                    <td>
+                                        @if ($item->status_pembayaran == "diterima" && $item->status_pembelian == "diantar")
+                                            <button type="button" class="btn btn-sm btn-primary" onclick="konfirmasi({{ $item->id }})">Konfirmasi</button>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade konfirmasi" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center p-5">
+                <i class="bi bi-exclamation-triangle text-warning display-5"></i>
+                <div class="mt-4">
+                    <h4 class="mb-3">Konfirmasi Pembelian!</h4>
+                    <p class="text-muted mb-4"> Pastikan pembelian anda telah anda terima </p>
+                    <div class="hstack gap-2 justify-content-center">
+                        <form action="{{ route('konfirmasi-pembelian') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="id" id="konfirmasi_id">
+                            <button type="submit" class="btn btn-success">Ya</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
 @endsection
+
+@push('scripts')
+    <script>
+        function konfirmasi(id) {
+            $('#konfirmasi_id').val(id);
+            $('.konfirmasi').modal('toggle');
+        }
+    </script>
+@endpush

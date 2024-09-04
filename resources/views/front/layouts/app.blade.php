@@ -20,7 +20,15 @@
 
 @php
     use App\Models\Pengaturan;
+    use App\Models\Keranjang;
     $pengaturan = Pengaturan::first();
+    $keranjang = null;
+    if (Auth::check()) {
+        $keranjang = Keranjang::where('user_id', Auth::user()->id)
+            ->where('status', 'open')
+            ->first();
+    }
+    $jumlah = $keranjang != null ? count($keranjang->obat) : 0;
 @endphp
 
 <body class="home">
@@ -39,7 +47,7 @@
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="headr-bar-right">
-                            <a href='tel:{{ !empty($pengaturan) ? $pengaturan->telepon : "" }}'>
+                            <a href='tel:{{ !empty($pengaturan) ? $pengaturan->telepon : '' }}'>
                                 @if (!empty($pengaturan))
                                     {{ $pengaturan->telepon }}
                                 @endif
@@ -47,7 +55,11 @@
                             <div class="serch-fl">
                                 <a class="ccdda" href="#"><i class="fas fa-search"></i></a>
                             </div>
-                            {{-- <a href="#"><i class="fas fa-shopping-cart"></i></a> --}}
+                            <a href="{{ route('lihat-keranjang') }}"><i class="fas fa-shopping-cart"></i>
+                                @if ($jumlah > 0)
+                                    {{ $jumlah }} Item
+                                @endif
+                            </a>
                         </div>
                         <div class="searchh ccfdf">
                             <form id="search" method="post" action="{{ route('search') }}">
@@ -67,7 +79,7 @@
                 <div class="col-xl-3 col-lg-12 col-md-12 col-sm-12 navbar-header">
                     <div class="header-logo">
                         <a href="{{ route('index') }}"><img src="/front/assets/logo.png" alt=""
-                                width="50"></a>
+                                width="100"></a>
                     </div>
                     <button type="button" data-toggle="collapse" data-target="#main-navigation" aria-expanded="false"
                         class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span
@@ -106,17 +118,37 @@
     </header>
 
     <!--hero-area-start-->
-    <div class="hero-area position-relative">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="hero-containt">
-                        <h3>Sistem Informasi <br> Penjualan Obat Apotek Fortuna </h3>
-                        <p>{{ !empty($pengaturan) ? $pengaturan->profile : "" }}</p>
-                        <a href="tel:@if (!empty($pengaturan)) {{ $pengaturan->telepon }} @endif"
-                            class="theme-btn">Hubungi Kami</a>
+    <div class="position-relative">
+        <div class="container mt-4" style="background-color: #d9d9d9">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <center> <img class="d-block" src="{{ asset('front/assets/slide1.jpg') }}" alt="First slide" style="height: 400px !important"></center>
+                    </div>
+                    <div class="carousel-item">
+                        <center><img class="d-block" src="{{ asset('front/assets/slide2.jpg') }}" alt="Second slide" style="height: 400px !important"></center>
+                    </div>
+                    <div class="carousel-item">
+                        <center><img class="d-block" src="{{ asset('front/assets/slide3.jpg') }}" alt="Third slide" style="height: 400px !important"></center>
+                    </div>
+                    <div class="carousel-item">
+                        <center><img class="d-block" src="{{ asset('front/assets/slide4.jpg') }}" alt="Third slide" style="height: 400px !important"></center>
                     </div>
                 </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
         </div>
     </div>

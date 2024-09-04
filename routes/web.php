@@ -34,6 +34,13 @@ Route::middleware('auth')->group(function() {
     Route::post('profile-admin', [ProfileController::class, 'simpan_profile_admin'])->name("profile-admin-simpan");
     Route::post('profile-admin/ganti-password', [ProfileController::class, 'ganti_password'])->name("ganti-password");
 
+    Route::get('lihat-obat/{id?}', [FrontController::class, 'lihat_obat'])->name("lihat-obat");
+    Route::post('tambah-keranjang', [FrontController::class, 'tambah_keranjang'])->name("tambah-keranjang");
+    Route::post('hapus-isi-keranjang', [FrontController::class, 'hapus_isi_keranjang'])->name("hapus-isi-keranjang");
+    Route::get('isi-keranjang', [FrontController::class, 'lihat_keranjang'])->name("lihat-keranjang");
+    Route::post('konfirmasi-pembelian', [FrontController::class, 'konfirmasi_pembelian'])->name("konfirmasi-pembelian");
+    Route::get('cetak-struk/{id?}', [LaporanController::class, 'cetak_struk'])->name("cetak-struk");
+
     Route::middleware('notCustomer')->group(function() {
         Route::get('/home', [HomeController::class, 'home'])->name("home");
 
@@ -61,6 +68,8 @@ Route::middleware('auth')->group(function() {
             Route::get('/', [PenjualanController::class, 'validasi_penjualan'])->name("validasi-penjualan");
             Route::post('tolak', [PenjualanController::class, 'validasi_tolak'])->name("validasi-tolak");
             Route::post('terima', [PenjualanController::class, 'validasi_terima'])->name("validasi-terima");
+            Route::post('kemas', [PenjualanController::class, 'validasi_kemas'])->name("validasi-kemas");
+            Route::post('antar', [PenjualanController::class, 'validasi_antar'])->name("validasi-antar");
         });
 
         Route::prefix("validasi-pemesanan")->group(function() {

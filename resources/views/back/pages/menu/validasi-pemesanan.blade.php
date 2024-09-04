@@ -36,7 +36,6 @@
                             <th scope="col">#ID</th>
                             <th scope="col">User</th>
                             <th scope="col">Obat</th>
-                            <th scope="col">Jumlah Obat</th>
                             <th scope="col">Total Bayar</th>
                             <th scope="col">Status</th>
                             <th scope="col">Opsi</th>
@@ -48,10 +47,13 @@
                                 <th scope="row">#{{ $item->id }}</th>
                                 <td>{{ $item->user->name }}</td>
                                 <td>
-                                    {{ $item->obat->nama_obat }}
+                                    <ul>
+                                        @foreach ($item->keranjang->obat as $obat)
+                                            <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs)</li>
+                                        @endforeach
+                                    </ul>
                                 </td>
-                                <td>{{ $item->jumlah }}</td>
-                                <td>Rp. {{ number_format($item->harga) }}</td>
+                                <td>Rp. {{ number_format($item->keranjang->obat->sum('total_harga')) }}</td>
                                 <td>{{ $item->status }}</td>
                                 <td>
                                     @if ($item->status == "menunggu")

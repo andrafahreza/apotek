@@ -38,6 +38,18 @@ class LaporanController extends Controller
         return $pdf->stream('laporan.pdf');
     }
 
+    public function cetak_struk($id = null)
+    {
+        $penjualan = Penjualan::findOrFail($id);
+
+        $pdf = PDF::loadView('back.pages.laporan.pdf.struk', [
+            'data' => $penjualan,
+        ])
+        ->setPaper([0, 0, 226.77, 566.93])
+        ->setOptions(['isRemoteEnabled' => true, 'isHtml5ParserEnabled' => true]);
+        return $pdf->stream('struk.pdf');
+    }
+
     public function obat()
     {
         $title = "laporan-obat";

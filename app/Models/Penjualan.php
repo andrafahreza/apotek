@@ -13,10 +13,8 @@ class Penjualan extends Model
     protected $fillable = [
         'id',
         'user_id',
-        'obat_id',
+        'keranjang_id',
         'nomor_pembelian',
-        'jumlah_obat',
-        'total_bayar',
         'pembayaran',
         'keterangan',
         'status_pembayaran',
@@ -29,7 +27,7 @@ class Penjualan extends Model
         return $this->belongsTo(User::class, "user_id");
     }
 
-    public function obat(){
-        return $this->belongsTo(Obat::class, "obat_id");
+    public function keranjang(){
+        return $this->belongsTo(Keranjang::class, "keranjang_id");
     }
 }

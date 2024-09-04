@@ -24,7 +24,6 @@
                             <th scope="col">Nomor Pembelian</th>
                             <th scope="col">User</th>
                             <th scope="col">Obat</th>
-                            <th scope="col">Jumlah Obat</th>
                             <th scope="col">Total Bayar</th>
                             <th scope="col">Pembayaran</th>
                         </tr>
@@ -36,14 +35,16 @@
                                 <td>{{ $item->nomor_pembelian }}</td>
                                 <td>#{{ $item->user->id }} - {{ $item->user->name }}</td>
                                 <td>
-                                    {{ $item->obat->nama_obat }}
-                                    <br>
-                                    <a href="{{ $item->obat->photo }}" target="_blank">
-                                        <img src="{{ $item->obat->photo }}" width="200">
-                                    </a>
+                                    <ul>
+                                        @foreach ($item->keranjang->obat as $obat)
+                                            <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs)</li>
+                                        @endforeach
+                                    </ul>
                                 </td>
-                                <td>{{ $item->jumlah_obat }}</td>
-                                <td>Rp. {{ number_format($item->total_bayar) }}</td>
+                                <td>
+                                    Rp. {{ number_format($item->keranjang->obat->sum('total_harga')) }} <br>
+                                    <a href="{{ route('cetak-struk', ['id' => $item->id]) }}" target="_blank">Cetak Struk</a>
+                                </td>
                                 <td>
                                     {{ strtoupper($item->pembayaran) }}
                                     @if ($item->pembayaran == "transfer")
