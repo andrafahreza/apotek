@@ -135,7 +135,7 @@ class FrontController extends Controller
         DB::beginTransaction();
 
         try {
-            $keranjang = Keranjang::findOrFail($request->id);
+            $keranjang = Keranjang::findOrFail($request->keranjang_id);
             $data = [
                 "user_id" => Auth::user()->id,
                 "keranjang_id" => $request->keranjang_id,
@@ -171,10 +171,10 @@ class FrontController extends Controller
                 }
             }
 
-            DB::commit();
-
             $keranjang->status = "close";
             $keranjang->update();
+
+            DB::commit();
 
             return redirect()->route('pemesanan-customer')->with("success", "Berhasil menyimpan data");
         } catch (\Throwable $th) {

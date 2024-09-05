@@ -22,7 +22,6 @@
                         <tr>
                             <th scope="col">#ID</th>
                             <th scope="col">Obat</th>
-                            <th scope="col">Jumlah Obat</th>
                             <th scope="col">Total harga</th>
                             <th scope="col">Status</th>
                         </tr>
