@@ -29,7 +29,11 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php $total = 0; @endphp
                         @foreach ($penjualan as $item)
+                            @php
+                                $total += $item->keranjang->obat->sum('total_harga');
+                            @endphp
                             <tr>
                                 <th scope="row">#{{ $item->id }}</th>
                                 <td>{{ $item->nomor_pembelian }}</td>
@@ -57,6 +61,12 @@
                             </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">Total Pembayaran</td>
+                            <td colspan="2">Rp. {{ number_format($total) }}</td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
