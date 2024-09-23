@@ -115,20 +115,34 @@
                 <tr>
                     <th>No Pembelian</th>
                     <th>Obat</th>
-                    <th>Jumlah Terjual</th>
                     <th>Total Penjualan</th>
                 </tr>
             </thead>
             <tbody>
+                @php $total = 0; @endphp
                 @foreach ($data as $key => $item)
+                @php
+                    $total += $item->keranjang->obat->sum('total_harga');
+                @endphp
                     <tr>
                         <td>{{ $item->nomor_pembelian }}</td>
-                        <td>{{ $item->obat->nama_obat }}</td>
-                        <td>{{ $item->jumlah_obat }}</td>
-                        <td>Rp. {{ number_format($item->total_bayar) }}</td>
+                        <td>
+                            <ul>
+                                @foreach ($item->keranjang->obat as $obat)
+                                    <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs)</li>
+                                @endforeach
+                            </ul>
+                        </td>
+                        <td>Rp. {{ number_format($item->keranjang->obat->sum('total_harga')) }}</td>
                     </tr>
                 @endforeach
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Total Pembayaran</td>
+                    <td>Rp. {{ number_format($total) }}</td>
+                </tr>
+            </tfoot>
         </table>
     @endif
     <br> <br>
