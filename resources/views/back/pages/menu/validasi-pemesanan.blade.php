@@ -9,7 +9,7 @@
                     <div class="serach_field_2">
                         <div class="search_inner">
                             <div class="search_field">
-                                <input id="search" type="text" placeholder="Cari Email...">
+                                <input id="search" type="text" placeholder="Cari User...">
                             </div>
                             <button type="button" id="btnSearch"> <i class="ti-search"></i> </button>
                         </div>
@@ -36,6 +36,7 @@
                             <th scope="col">#ID</th>
                             <th scope="col">User</th>
                             <th scope="col">Obat</th>
+                            <th scope="col">Stok</th>
                             <th scope="col">Total Bayar</th>
                             <th scope="col">Status</th>
                             <th scope="col">Opsi</th>
@@ -50,6 +51,13 @@
                                     <ul>
                                         @foreach ($item->keranjang->obat as $obat)
                                             <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs)</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                        @foreach ($item->keranjang->obat as $obat)
+                                            <li>- {{ $obat->obat->stok->sum('jumlah_obat') }}</li>
                                         @endforeach
                                     </ul>
                                 </td>
@@ -126,5 +134,11 @@
             $('#terima_id').val(id);
             $('.terima').modal('toggle');
         }
+
+        $('#btnSearch').on('click', function() {
+            var search = $('#search').val();
+            var url = "{{ route('validasi-pemesanan') }}" + "/" + search;
+            window.location = url;
+        })
     </script>
 @endpush

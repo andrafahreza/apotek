@@ -117,10 +117,17 @@ class PenjualanController extends Controller
     }
 
     // Validasi
-    public function validasi_penjualan()
+    public function validasi_penjualan($search = null)
     {
         $title = "validasi";
-        $data = Penjualan::where('status_pembelian', '!=', 'sukses')->latest()->get();
+        $data = Penjualan::where('status_pembelian', '!=', 'sukses')
+            ->where(function($query) use($search) {
+                if ($search != null) {
+                    $query->where('nomor_pembelian', 'like', "%$search%");
+                }
+            })
+            ->latest()
+            ->get();
 
         return view('back.pages.menu.validasi-penjualan', compact('title', 'data'));
     }

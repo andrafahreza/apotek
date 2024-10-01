@@ -65,7 +65,7 @@ Route::middleware('auth')->group(function() {
         });
 
         Route::prefix("validasi-penjualan")->group(function() {
-            Route::get('/', [PenjualanController::class, 'validasi_penjualan'])->name("validasi-penjualan");
+            Route::get('/{search?}', [PenjualanController::class, 'validasi_penjualan'])->name("validasi-penjualan");
             Route::post('tolak', [PenjualanController::class, 'validasi_tolak'])->name("validasi-tolak");
             Route::post('terima', [PenjualanController::class, 'validasi_terima'])->name("validasi-terima");
             Route::post('kemas', [PenjualanController::class, 'validasi_kemas'])->name("validasi-kemas");
@@ -73,7 +73,7 @@ Route::middleware('auth')->group(function() {
         });
 
         Route::prefix("validasi-pemesanan")->group(function() {
-            Route::get('/', [PemesananController::class, 'validasi_pemesanan'])->name("validasi-pemesanan");
+            Route::get('/{search?}', [PemesananController::class, 'validasi_pemesanan'])->name("validasi-pemesanan");
             Route::post('tolak', [PemesananController::class, 'validasi_tolak'])->name("validasi-pemesanan-tolak");
             Route::post('terima', [PemesananController::class, 'validasi_terima'])->name("validasi-pemesanan-terima");
 

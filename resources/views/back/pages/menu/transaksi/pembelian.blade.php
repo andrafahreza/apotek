@@ -9,7 +9,7 @@
                     <div class="serach_field_2">
                         <div class="search_inner">
                             <div class="search_field">
-                                <input id="search" type="text" placeholder="Cari...">
+                                <input id="search" type="text" placeholder="Cari No Pembelian...">
                             </div>
                             <button type="button" id="btnSearch"> <i class="ti-search"></i> </button>
                         </div>

@@ -3,15 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pemesanan;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PemesananController extends Controller
 {
-    public function validasi_pemesanan()
+    public function validasi_pemesanan($search = null)
     {
         $title = "validasi-pemesanan";
-        $data = Pemesanan::latest()->get();
+        $user = User::where("name", "LIKE", "%".$search."%")->get()->pluck('id');
+        $data = Pemesanan::where(function ($query) use ($user) {
+                if ($user != null) {
+                    $query->whereIn('user_id', $user);
+                }
+            })
+            ->latest()
+            ->get();
 
         return view('back.pages.menu.validasi-pemesanan', compact('title', 'data'));
     }
