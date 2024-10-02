@@ -50,7 +50,7 @@
                                 <td>
                                     <ul>
                                         @foreach ($item->keranjang->obat as $obat)
-                                            <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs)</li>
+                                            <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs) <button type="button" class="btn btn-sm btn-warning" onclick="kurangObat({{ $obat->id }})" id="btnKurangiObat">Kurangi</button></li>
                                         @endforeach
                                     </ul>
                                 </td>
@@ -121,6 +121,30 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
+
+    <div class="modal fade kurangObat" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-5">
+                    <i class="bi bi-exclamation-triangle text-warning display-5"></i>
+                    <div class="mt-4">
+                        <h4 class="mb-3">Kurangi Obat!</h4>
+                        <p class="text-muted mb-4"> Yakin ingin mengurangi obat pembeli ini? </p>
+                        <div class="hstack gap-2 justify-content-center">
+                            <form action="{{ route('validasi-pemesanan-kurang-obat') }}" method="POST">
+                                @csrf
+                                <input class="form-control" name="kurang" required placeholder="Masukkan jumlah obat yang dikurangi">
+                                <br>
+                                <input type="hidden" name="id" id="kurang_obat_id">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-success">Ya</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 @endsection
 
 @push('scripts')
@@ -133,6 +157,11 @@
         function terima(id) {
             $('#terima_id').val(id);
             $('.terima').modal('toggle');
+        }
+
+        function kurangObat(id) {
+            $('#kurang_obat_id').val(id);
+            $('.kurangObat').modal('toggle');
         }
 
         $('#btnSearch').on('click', function() {

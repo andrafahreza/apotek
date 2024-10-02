@@ -54,14 +54,10 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="4" style="text-align: right;">Ongkos Kirim</td>
-                            <td>Rp. 10.000</td>
-                        </tr>
-                        <tr>
                             <td colspan="5" style="text-align: right;">Total Harga</td>
                         </tr>
                         <tr>
-                            <td colspan="5" style="text-align: right; font-weight:bold">Rp. {{ number_format($totalHarga + 10000) }}</td>
+                            <td colspan="5" style="text-align: right; font-weight:bold">Rp. {{ number_format($totalHarga) }}</td>
                         </tr>
                     </tfoot>
                 </table>

@@ -37,13 +37,7 @@
                                                 </ul>
                                             </div>
                                             <div class="single-re-input">
-                                                <label for="kurir">Kurir* <br> <small>Biaya kurir ditanggung oleh pembeli</small></label>
-                                                <select class="form-control" name="kurir" required>
-                                                    <option value="">Pilih Kurir</option>
-                                                    <option value="Gojek">Gojek</option>
-                                                    <option value="Maxim">Maxim</option>
-                                                    <option value="Grab">Grab</option>
-                                                </select>
+                                                <label for="kurir">Kurir* <br> <small>Biaya kurir ditanggung oleh pembeli. obat akan dikirim oleh kurir apotek</small></label>
                                             </div>
                                             <button class="team-1" type="submit">Beli</button>
                                         </form>

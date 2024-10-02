@@ -76,6 +76,7 @@ Route::middleware('auth')->group(function() {
             Route::get('/{search?}', [PemesananController::class, 'validasi_pemesanan'])->name("validasi-pemesanan");
             Route::post('tolak', [PemesananController::class, 'validasi_tolak'])->name("validasi-pemesanan-tolak");
             Route::post('terima', [PemesananController::class, 'validasi_terima'])->name("validasi-pemesanan-terima");
+            Route::post('kurang-obat', [PemesananController::class, 'validasi_kurang_obat'])->name("validasi-pemesanan-kurang-obat");
 
         });
 

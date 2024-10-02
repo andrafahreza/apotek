@@ -71,7 +71,7 @@ class FrontController extends Controller
                 "pembayaran" => "transfer",
                 "status_pembayaran" => "menunggu",
                 "status_pembelian" => "menunggu",
-                'kurir' => $request->kurir
+                'kurir' => "apotek"
             ];
 
             $request->validate([
@@ -146,29 +146,6 @@ class FrontController extends Controller
 
             if (!$pemesanan->save()) {
                 throw new \Exception("Terjadi kesalahan, silahkan coba lagi");
-            }
-
-            foreach ($pemesanan->keranjang->obat as $isi) {
-                $persediaan = Persediaan::where('obat_id', $isi->obat_id)->where('jumlah_obat', '>', 0)->get();
-                $sisa = $isi->kuantitas;
-                foreach ($persediaan as $value) {
-                    if ($value->jumlah_obat < $sisa) {
-                        $stok = Persediaan::find($value->id);
-                        $sisa -= $stok->jumlah_obat;
-
-                        $stok->jumlah_obat = 0;
-                        if (!$stok->update()) {
-                            throw new \Exception("Gagal memperbarui stok obat, silahkan coba lagi");
-                        }
-                    } else {
-                        $stok = Persediaan::find($value->id);
-                        $stok->jumlah_obat = $stok->jumlah_obat - $sisa;
-                        if (!$stok->update()) {
-                            throw new \Exception("Gagal memperbarui stok obat, silahkan coba lagi");
-                        }
-                        break;
-                    }
-                }
             }
 
             $keranjang->status = "close";
