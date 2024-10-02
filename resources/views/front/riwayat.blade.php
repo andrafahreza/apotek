@@ -23,6 +23,7 @@
                             <tr>
                                 <th scope="col">#ID</th>
                                 <th scope="col">No Pembelian</th>
+                                <th scope="col">Alamat</th>
                                 <th scope="col">Obat</th>
                                 <th scope="col">Total Bayar</th>
                                 <th scope="col">Status Pembayaran</th>
@@ -42,6 +43,7 @@
                                             {{ $item->nomor_pembelian }}
                                         @endif
                                     </td>
+                                    <td>{{ $item->alamat }}</td>
                                     <td>
                                         <ul>
                                             @foreach ($item->keranjang->obat as $obat)

@@ -71,7 +71,8 @@ class FrontController extends Controller
                 "pembayaran" => "transfer",
                 "status_pembayaran" => "menunggu",
                 "status_pembelian" => "menunggu",
-                'kurir' => "apotek"
+                'kurir' => "apotek",
+                'alamat' => $request->alamat
             ];
 
             $request->validate([
@@ -175,7 +176,7 @@ class FrontController extends Controller
     public function lihat_obat($id = null)
     {
         $obat = Obat::findOrFail($id);
-        $stok = Persediaan::where('obat_id', $obat->id)->sum('jumlah_obat');
+        $stok = Persediaan::where('obat_id', $obat->id)->where('tgl_kadaluarsa', '>', now())->sum('jumlah_obat');
 
         return view('front.lihat-obat', compact('obat', 'stok'));
     }

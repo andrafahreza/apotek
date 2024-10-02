@@ -108,7 +108,7 @@ class ObatController extends Controller
     public function show_stok($id = null)
     {
         $obat = Obat::findOrFail($id);
-        $data = Persediaan::where('obat_id', $obat->id)->sum('jumlah_obat');
+        $data = Persediaan::where('obat_id', $obat->id)->where('tgl_kadaluarsa', '>', now())->sum('jumlah_obat');
 
         try {
             return response()->json([

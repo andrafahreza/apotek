@@ -31,7 +31,7 @@
                             <div class="zoom-df">
                                 <h3>Stok: {{ $stok }}</h3>
                                 <h3>Tipe Obat: {{ $obat->tipe_obat }}</h3>
-                                <h3>Kadaluarsa Obat: {{ date('d-m-Y', strtotime($obat->stok->first()->tgl_kadaluarsa)) }}</h3>
+                                <h3>Kadaluarsa Obat: {{ $obat->stok->sum('jumlah_obat') > 0 ? date('d-m-Y', strtotime($obat->stok->first()->tgl_kadaluarsa)) : "-" }}</h3>
                             </div>
                             <div class="re-form">
                                 <form action="{{ route('tambah-keranjang') }}" method="POST" enctype="multipart/form-data">

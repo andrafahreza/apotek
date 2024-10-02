@@ -20,7 +20,8 @@ class Penjualan extends Model
         'status_pembayaran',
         'status_pembelian',
         'bukti_transfer',
-        'kurir'
+        'kurir',
+        'alamat'
     ];
 
     public function user(){

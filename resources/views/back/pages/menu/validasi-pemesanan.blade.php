@@ -50,14 +50,17 @@
                                 <td>
                                     <ul>
                                         @foreach ($item->keranjang->obat as $obat)
-                                            <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs) <button type="button" class="btn btn-sm btn-warning" onclick="kurangObat({{ $obat->id }})" id="btnKurangiObat">Kurangi</button></li>
+                                            <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs)
+                                                @if ($item->status == "menunggu")
+                                                    <button type="button" class="btn btn-sm btn-warning" onclick="kurangObat({{ $obat->id }})" id="btnKurangiObat">Kurangi</button></li>
+                                                @endif
                                         @endforeach
                                     </ul>
                                 </td>
                                 <td>
                                     <ul>
                                         @foreach ($item->keranjang->obat as $obat)
-                                            <li>- {{ $obat->obat->stok->sum('jumlah_obat') }}</li>
+                                            <li>- {{ $obat->obat->stok->where('tgl_kadaluarsa', now())->sum('jumlah_obat') }}</li>
                                         @endforeach
                                     </ul>
                                 </td>

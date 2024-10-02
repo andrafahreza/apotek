@@ -35,6 +35,7 @@
                         <tr>
                             <th scope="col">#ID</th>
                             <th scope="col">No Pembelian</th>
+                            <th scope="col">Alamat</th>
                             <th scope="col">Obat</th>
                             <th scope="col">Stok</th>
                             <th scope="col">Status Pembayaran</th>
@@ -54,6 +55,7 @@
                                         {{ $item->nomor_pembelian }}
                                     @endif
                                 </td>
+                                <td>{{ $item->alamat }}</td>
                                 <td>
                                     <ul>
                                         @foreach ($item->keranjang->obat as $obat)
@@ -65,7 +67,7 @@
                                 <td>
                                     <ul>
                                         @foreach ($item->keranjang->obat as $obat)
-                                            <li>- {{ $obat->obat->stok->sum('jumlah_obat') }}</li>
+                                            <li>- {{ $obat->obat->stok->where('tgl_kadaluarsa', '>', now())->sum('jumlah_obat') }}</li>
                                         @endforeach
                                     </ul>
                                 </td>

@@ -37,6 +37,10 @@
                                                 </ul>
                                             </div>
                                             <div class="single-re-input">
+                                                <label for="alamat">Alamat*</label>
+                                                <input class="form-control" name="alamat" required>
+                                            </div>
+                                            <div class="single-re-input">
                                                 <label for="kurir">Kurir* <br> <small>Biaya kurir ditanggung oleh pembeli. obat akan dikirim oleh kurir apotek</small></label>
                                             </div>
                                             <button class="team-1" type="submit">Beli</button>
