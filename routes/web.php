@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function() {
 
     Route::middleware('notCustomer')->group(function() {
         Route::get('/home', [HomeController::class, 'home'])->name("home");
+        Route::post('/home', [HomeController::class, 'homeSearch'])->name("home-search");
 
         Route::prefix("profile-admin")->group(function() {
             Route::get('/', [ProfileController::class, 'profile_admin'])->name("profile-admin");
@@ -77,6 +78,7 @@ Route::middleware('auth')->group(function() {
             Route::post('tolak', [PemesananController::class, 'validasi_tolak'])->name("validasi-pemesanan-tolak");
             Route::post('terima', [PemesananController::class, 'validasi_terima'])->name("validasi-pemesanan-terima");
             Route::post('kurang-obat', [PemesananController::class, 'validasi_kurang_obat'])->name("validasi-pemesanan-kurang-obat");
+            Route::post('tambah-obat', [PemesananController::class, 'validasi_tambah_obat'])->name("validasi-pemesanan-tambah-obat");
 
         });
 

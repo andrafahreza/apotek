@@ -68,6 +68,25 @@ class PemesananController extends Controller
         }
     }
 
+    public function validasi_tambah_obat(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $keranjangObat = KeranjangObat::findOrFail($request->id);
+            $keranjangObat->kuantiti = $keranjangObat->kuantiti + $request->tambah;
+            $keranjangObat->total_harga = $keranjangObat->kuantiti * $keranjangObat->obat->harga;
+            $keranjangObat->save();
+
+            DB::commit();
+
+            return redirect()->back()->with("success", "Berhasil menerima data");
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->withErrors($th->getMessage());
+        }
+    }
+
     public function validasi_terima(Request $request)
     {
         DB::beginTransaction();

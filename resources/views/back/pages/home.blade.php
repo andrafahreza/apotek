@@ -48,8 +48,25 @@
                     <div class="col-xl-6">
                         <div class="white_box card_height_100">
                             <div class="box_header border_bottom_1px">
-                                <div class="main-title">
-                                    <h3 class="mb_25">Kadaluarsa Obat</h3>
+                                <div class="main-title" style="width: 100%">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h3 class="mb_25">Kadaluarsa Obat</h3>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <form action="{{ route('home') }}" method="POST">
+                                                @csrf
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <input class="form-control" name="filter" placeholder="Nama Obat" value="{{ $filter }}" required>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <button class="btn btn-sm btn-primary">Cari</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="Activity_timeline">

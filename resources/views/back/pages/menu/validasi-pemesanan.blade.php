@@ -52,15 +52,17 @@
                                         @foreach ($item->keranjang->obat as $obat)
                                             <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs)
                                                 @if ($item->status == "menunggu")
-                                                    <button type="button" class="btn btn-sm btn-warning" onclick="kurangObat({{ $obat->id }})" id="btnKurangiObat">Kurangi</button></li>
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="kurangObat({{ $obat->id }})" id="btnKurangiObat">-</button>
+                                                    <button type="button" class="btn btn-sm btn-success" onclick="tambahObat({{ $obat->id }})" id="btnTambahObat">+</button>
                                                 @endif
+                                            </li>
                                         @endforeach
                                     </ul>
                                 </td>
                                 <td>
                                     <ul>
                                         @foreach ($item->keranjang->obat as $obat)
-                                            <li>- {{ $obat->obat->stok->where('tgl_kadaluarsa', now())->sum('jumlah_obat') }}</li>
+                                            <li>- {{ $obat->obat->stok->where('tgl_kadaluarsa', '>', now())->sum('jumlah_obat') }}</li>
                                         @endforeach
                                     </ul>
                                 </td>
@@ -148,6 +150,30 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
+
+    <div class="modal fade tambahObat" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-5">
+                    <i class="bi bi-exclamation-triangle text-warning display-5"></i>
+                    <div class="mt-4">
+                        <h4 class="mb-3">Tambah Obat!</h4>
+                        <p class="text-muted mb-4"> Yakin ingin menambah obat pembeli ini? </p>
+                        <div class="hstack gap-2 justify-content-center">
+                            <form action="{{ route('validasi-pemesanan-tambah-obat') }}" method="POST">
+                                @csrf
+                                <input class="form-control" name="tambah" required placeholder="Masukkan jumlah obat yang ditambah">
+                                <br>
+                                <input type="hidden" name="id" id="tambah_obat_id">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-success">Ya</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 @endsection
 
 @push('scripts')
@@ -165,6 +191,11 @@
         function kurangObat(id) {
             $('#kurang_obat_id').val(id);
             $('.kurangObat').modal('toggle');
+        }
+
+        function tambahObat(id) {
+            $('#tambah_obat_id').val(id);
+            $('.tambahObat').modal('toggle');
         }
 
         $('#btnSearch').on('click', function() {
