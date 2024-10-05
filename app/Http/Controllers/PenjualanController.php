@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Keranjang;
 use App\Models\Obat;
 use App\Models\Pembelian;
+use App\Models\Pemesanan;
 use App\Models\Penjualan;
 use App\Models\Persediaan;
 use Illuminate\Http\Request;
@@ -113,7 +114,9 @@ class PenjualanController extends Controller
         })
         ->where('status_pembelian', 'sukses')->latest()->get();
 
-        return view('back.pages.menu.transaksi.penjualan', compact('title', 'penjualan'));
+        $pemesanan = Pemesanan::where('status', 'diterima')->latest()->get();
+
+        return view('back.pages.menu.transaksi.penjualan', compact('title', 'penjualan', 'pemesanan'));
     }
 
     // Validasi

@@ -115,6 +115,7 @@ Route::middleware('auth')->group(function() {
             Route::get('show/{id?}', [UserController::class, 'show'])->name("akun-show");
             Route::get('reset-password/{id?}', [UserController::class, 'reset'])->name("akun-reset");
             Route::post('hapus', [UserController::class, 'hapus'])->name("akun-hapus");
+            Route::post('ongkir', [UserController::class, 'ongkir'])->name("akun-ongkir");
             Route::post('simpan/{id?}', [UserController::class, 'simpan'])->name("akun-simpan");
         });
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Obat;
 use App\Models\Pembelian;
+use App\Models\Pemesanan;
 use App\Models\Penjualan;
 use PDF;
 use Illuminate\Http\Request;
@@ -18,10 +19,13 @@ class LaporanController extends Controller
 
         if ($jenis == "obat") {
             $data = Obat::whereBetween('created_at', [$from, $to." 23:59"])->get();
+            $pemesanan = null;
         } else if ($jenis == "pembelian") {
             $data = Pembelian::with(['pemasok', 'obat', 'persediaan'])->whereBetween('created_at', [$from, $to." 23:59"])->get();
+            $pemesanan = null;
         } else if ($jenis == "penjualan") {
             $data = Penjualan::whereBetween('created_at', [$from, $to." 23:59"])->where('status_pembelian', 'sukses')->get();
+            $pemesanan = Pemesanan::where('status', 'diterima')->whereBetween('created_at', [$from, $to." 23:59"])->get();
         } else {
             abort(404);
         }
@@ -31,7 +35,8 @@ class LaporanController extends Controller
             'data' => $data,
             'from' => $from,
             'to' => $to,
-            'jenis' => $jenis
+            'jenis' => $jenis,
+            'pemesanan' => $pemesanan
         ])
         ->setPaper('a4', 'landscape')
         ->setOptions(['isRemoteEnabled' => true, 'isHtml5ParserEnabled' => true]);

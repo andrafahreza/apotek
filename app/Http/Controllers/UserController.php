@@ -112,6 +112,28 @@ class UserController extends Controller
         }
     }
 
+    public function ongkir(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $user = User::findOrFail($request->id);
+            $user->ongkir = $request->ongkir;
+
+            if (!$user->update()) {
+                throw new \Exception("Terjadi kesalahan saat memperbarui data");
+            }
+
+            DB::commit();
+
+            return redirect()->back()->with("success", "Berhasil memperbarui data");
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->withErrors($th->getMessage());
+        }
+    }
+
     public function reset($id = null)
     {
         DB::beginTransaction();

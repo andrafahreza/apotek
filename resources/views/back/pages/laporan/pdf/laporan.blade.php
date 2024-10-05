@@ -136,6 +136,22 @@
                         <td>Rp. {{ number_format($item->keranjang->obat->sum('total_harga')) }}</td>
                     </tr>
                 @endforeach
+                @foreach ($pemesanan as $key => $item)
+                @php
+                    $total += $item->keranjang->obat->sum('total_harga');
+                @endphp
+                    <tr>
+                        <td>-</td>
+                        <td>
+                            <ul>
+                                @foreach ($item->keranjang->obat as $obat)
+                                    <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs)</li>
+                                @endforeach
+                            </ul>
+                        </td>
+                        <td>Rp. {{ number_format($item->keranjang->obat->sum('total_harga')) }}</td>
+                    </tr>
+                @endforeach
             </tbody>
             <tfoot>
                 <tr>

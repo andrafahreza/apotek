@@ -40,9 +40,9 @@
                             <th scope="col">Nama</th>
                             <th scope="col">Email</th>
                             <th scope="col">Telepon</th>
-                            <th scope="col">Jenis Kelamin</th>
                             <th scope="col">Role</th>
                             <th scope="col">Alamat</th>
+                            <th scope="col">Ongkir</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -53,9 +53,15 @@
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->email }}</td>
                                 <td>{{ $item->telepon }}</td>
-                                <td>{{ $item->jenis_kelamin }}</td>
                                 <td>{{ $item->role }}</td>
                                 <td>{{ $item->alamat }}</td>
+                                <td>
+                                    @if ($item->ongkir == null)
+                                        <button type="button" class="btn btn-sm btn-primary" onclick="ongkir({{ $item->id }})" id="btnOngkir">Masukkan ongkir</button>
+                                    @else
+                                        Rp. {{ number_format($item->ongkir) }}
+                                    @endif
+                                </td>
                                 <td>
                                     @if ($item->id != Auth::user()->id)
                                         <button type="button" class="btn btn-sm btn-primary" onclick="detail({{ $item->id }})" id="btnDetail">Detail</button>
@@ -150,6 +156,29 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
+
+    <div class="modal fade ongkir" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-5">
+                    <i class="bi bi-exclamation-triangle text-warning display-5"></i>
+                    <div class="mt-4">
+                        <h4 class="mb-3">Ongkir Data!</h4>
+                        <div class="hstack gap-2 justify-content-center">
+                            <form action="{{ route('akun-ongkir') }}" method="POST">
+                                @csrf
+                                <input class="form-control" name="ongkir" required placeholder="masukkan jumlah ongkir">
+                                <br>
+                                <input type="hidden" name="id" id="ongkir_id">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-danger">Ya</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 @endsection
 
 @push('scripts')
@@ -207,6 +236,11 @@
         function hapus(id) {
             $('#hapus_id').val(id);
             $('.hapus').modal('toggle');
+        }
+
+        function ongkir(id) {
+            $('#ongkir_id').val(id);
+            $('.ongkir').modal('toggle');
         }
     </script>
 @endpush

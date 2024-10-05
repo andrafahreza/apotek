@@ -33,8 +33,10 @@ class HomeController extends Controller
         $pemasok = Pemasok::get();
 
         $obatFilter = Obat::where('nama_obat', 'like', "%$request->filter%")->get()->pluck("id");
-        $persediaan = Persediaan::whereIn("obat_id", $obatFilter)->where('jumlah_obat', '>', 0)->get();
-        $filter = $request->filter;
+        $persediaan = Persediaan::where('jumlah_obat', '>', 0)
+            ->whereBetween('tgl_kadaluarsa', [$request->from, $request->to])
+            ->get();
+        $filter = true;
 
         return view('back.pages.home', compact('title', 'customer', 'obat', 'penjualan', 'pemasok', 'persediaan', 'filter'));
     }

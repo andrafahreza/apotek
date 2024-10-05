@@ -45,20 +45,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-6">
+                    <div class="col-xl-8">
                         <div class="white_box card_height_100">
                             <div class="box_header border_bottom_1px">
                                 <div class="main-title" style="width: 100%">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <h3 class="mb_25">Kadaluarsa Obat</h3>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-8">
                                             <form action="{{ route('home') }}" method="POST">
                                                 @csrf
                                                 <div class="row">
                                                     <div class="col-md-8">
-                                                        <input class="form-control" name="filter" placeholder="Nama Obat" value="{{ $filter }}" required>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <input type="date" name="from" required>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <input type="date" name="to" required>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <button class="btn btn-sm btn-primary">Cari</button>
@@ -71,17 +78,51 @@
                             </div>
                             <div class="Activity_timeline">
                                 <ul>
-                                    @if ($persediaan->count() == 0)
-                                        <li>
-                                            <div class="activity_bell"></div>
-                                            <div class="activity_wrap">
-                                                <h6>Tidak ada obat yang kadaluarsa dalam seminggu mendatang</h6>
-                                            </div>
-                                        </li>
+                                    @if ($filter == "")
+                                        @if ($persediaan->count() == 0)
+                                            <li>
+                                                <div class="activity_bell"></div>
+                                                <div class="activity_wrap">
+                                                    <h6>Tidak ada obat yang kadaluarsa dalam seminggu mendatang</h6>
+                                                </div>
+                                            </li>
+                                        @else
+                                            @php $no = 0; @endphp
+                                            @foreach ($persediaan as $item)
+                                                @if (strtotime(now() . '+7 days') >= strtotime($item->tgl_kadaluarsa) || strtotime(now()) > strtotime($item->tgl_kadaluarsa))
+                                                    @php $no ++; @endphp
+                                                    <li>
+                                                        <div class="activity_bell"></div>
+                                                        <div class="activity_wrap">
+                                                            <h6>{{ $item->obat->nama_obat }}</h6>
+                                                            <p>
+                                                                - ID Pembelian : {{ $item->pembelian_id }} <br>
+                                                                - Tgl Kadaluarsa : {{ date('d-m-Y', strtotime($item->tgl_kadaluarsa)) }}
+                                                            </p>
+                                                        </div>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                            @if ($no == 0)
+                                                <li>
+                                                    <div class="activity_bell"></div>
+                                                    <div class="activity_wrap">
+                                                        <h6>Tidak ada obat yang kadaluarsa dalam seminggu mendatang</h6>
+                                                    </div>
+                                                </li>
+                                            @endif
+                                        @endif
                                     @else
-                                        @php $no = 0; @endphp
-                                        @foreach ($persediaan as $item)
-                                            @if (strtotime(now() . '+7 days') >= strtotime($item->tgl_kadaluarsa) || strtotime(now()) > strtotime($item->tgl_kadaluarsa))
+                                        @if ($persediaan->count() == 0)
+                                            <li>
+                                                <div class="activity_bell"></div>
+                                                <div class="activity_wrap">
+                                                    <h6>Tidak ada obat yang kadaluarsa dalam waktu tersebut</h6>
+                                                </div>
+                                            </li>
+                                        @else
+                                            @php $no = 0; @endphp
+                                            @foreach ($persediaan as $item)
                                                 @php $no ++; @endphp
                                                 <li>
                                                     <div class="activity_bell"></div>
@@ -93,15 +134,15 @@
                                                         </p>
                                                     </div>
                                                 </li>
+                                            @endforeach
+                                            @if ($no == 0)
+                                                <li>
+                                                    <div class="activity_bell"></div>
+                                                    <div class="activity_wrap">
+                                                        <h6>Tidak ada obat yang kadaluarsa dalam waktu tersebut</h6>
+                                                    </div>
+                                                </li>
                                             @endif
-                                        @endforeach
-                                        @if ($no == 0)
-                                            <li>
-                                                <div class="activity_bell"></div>
-                                                <div class="activity_wrap">
-                                                    <h6>Tidak ada obat yang kadaluarsa dalam seminggu mendatang</h6>
-                                                </div>
-                                            </li>
                                         @endif
                                     @endif
                                 </ul>

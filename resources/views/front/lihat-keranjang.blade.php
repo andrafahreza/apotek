@@ -54,10 +54,14 @@
                     </tbody>
                     <tfoot>
                         <tr>
+                            <td colspan="4" style="text-align: right;">Ongkir</td>
+                            <td>Rp. {{ number_format(Auth::user()->ongkir) }}</td>
+                        </tr>
+                        <tr>
                             <td colspan="5" style="text-align: right;">Total Harga</td>
                         </tr>
                         <tr>
-                            <td colspan="5" style="text-align: right; font-weight:bold">Rp. {{ number_format($totalHarga) }}</td>
+                            <td colspan="5" style="text-align: right; font-weight:bold">Rp. {{ number_format($totalHarga + Auth::user()->ongkir) }}</td>
                         </tr>
                     </tfoot>
                 </table>

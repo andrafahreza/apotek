@@ -26,7 +26,7 @@
                                         <form action="{{ route('pembayaran-customer') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             <input type="hidden" name="keranjang_id" value="{{ $keranjang->id }}">
-                                            <span style="font-weight: bold">Total Tagihan: Rp. {{ number_format($keranjang->obat->sum('total_harga')) }}</span>
+                                            <span style="font-weight: bold">Total Tagihan: Rp. {{ number_format($keranjang->obat->sum('total_harga') + Auth::user()->ongkir) }}</span>
                                             <div class="single-re-input">
                                                 <label for="total_bayar">Bukti Pembayaran*</label>
                                                 <input type="file" name="bukti_transfer" id="bukti_transfer" required>
@@ -41,7 +41,7 @@
                                                 <input class="form-control" name="alamat" required>
                                             </div>
                                             <div class="single-re-input">
-                                                <label for="kurir">Kurir <br> <small>Gratis Ongkos Kirim. Obat akan dikirim oleh kurir apotek</small></label>
+                                                <label for="kurir">Kurir <br> <small>Biaya Ongkir Rp. {{ number_format(Auth::user()->ongkir) }}. Obat akan dikirim oleh kurir apotek</small></label>
                                             </div>
                                             <button class="team-1" type="submit">Beli</button>
                                         </form>

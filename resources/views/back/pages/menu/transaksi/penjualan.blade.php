@@ -60,6 +60,29 @@
                                 </td>
                             </tr>
                         @endforeach
+                        @foreach ($pemesanan as $pesan)
+                            @php
+                                $total += $pesan->keranjang->obat->sum('total_harga');
+                            @endphp
+                            <tr>
+                                <th scope="row">#{{ $pesan->id }}</th>
+                                <td>-</td>
+                                <td>#{{ $pesan->user->id }} - {{ $pesan->user->name }}</td>
+                                <td>
+                                    <ul>
+                                        @foreach ($pesan->keranjang->obat as $obat)
+                                            <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs)</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td>
+                                    Rp. {{ number_format($pesan->keranjang->obat->sum('total_harga')) }}
+                                </td>
+                                <td>
+                                    CASH
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
