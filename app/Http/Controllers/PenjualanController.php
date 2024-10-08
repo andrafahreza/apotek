@@ -135,6 +135,29 @@ class PenjualanController extends Controller
         return view('back.pages.menu.validasi-penjualan', compact('title', 'data'));
     }
 
+    public function validasi_ongkir(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $data = Penjualan::findOrFail($request->id);
+            $data->status_ongkir = "diterima";
+            $data->ongkir = $request->ongkir;
+
+            if (!$data->update()) {
+                throw new \Exception("Terjadi kesalahan, silahkan coba lagi");
+            }
+
+            DB::commit();
+
+            return redirect()->back()->with("success", "Berhasil menerima data");
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->withErrors($th->getMessage());
+        }
+    }
+
     public function validasi_tolak(Request $request)
     {
         DB::beginTransaction();

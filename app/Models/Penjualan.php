@@ -17,11 +17,13 @@ class Penjualan extends Model
         'nomor_pembelian',
         'pembayaran',
         'keterangan',
+        'status_ongkir',
         'status_pembayaran',
         'status_pembelian',
         'bukti_transfer',
         'kurir',
-        'alamat'
+        'alamat',
+        'ongkir'
     ];
 
     public function user(){

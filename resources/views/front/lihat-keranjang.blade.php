@@ -54,14 +54,10 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="4" style="text-align: right;">Ongkir</td>
-                            <td>Rp. {{ number_format(Auth::user()->ongkir) }}</td>
-                        </tr>
-                        <tr>
                             <td colspan="5" style="text-align: right;">Total Harga</td>
                         </tr>
                         <tr>
-                            <td colspan="5" style="text-align: right; font-weight:bold">Rp. {{ number_format($totalHarga + Auth::user()->ongkir) }}</td>
+                            <td colspan="5" style="text-align: right; font-weight:bold">Rp. {{ number_format($totalHarga) }}</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -70,7 +66,7 @@
                 <div class="text-right">
                     @if ($data != null)
                     <a href="{{ route('pesan', ['id' => $data->id]) }}" class="btn btn-success">Pesan</a>
-                        <a href="{{ route('beli', ['id' => $data->id]) }}" class="btn btn-primary">Beli</a>
+                        <a href="{{ route('isi-alamat', ['id' => $data->id]) }}" class="btn btn-primary">Beli</a>
                     @endif
                 </div>
             </div>

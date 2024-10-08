@@ -19,14 +19,14 @@
             <div class="QA_table mb_30">
                 @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Error!</strong>  {{ $errors->first() }}
+                        <strong>Error!</strong> {{ $errors->first() }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
 
                 @if (Session::has('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Sukses!</strong>  {{ Session::get('success'); }}
+                        <strong>Sukses!</strong> {{ Session::get('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
@@ -49,7 +49,7 @@
                             <tr>
                                 <th scope="row">#{{ $item->id }}</th>
                                 <td>
-                                    @if ($item->nomor_pembelian == "unknown")
+                                    @if ($item->nomor_pembelian == 'unknown')
                                         Belum dikonfirmasi
                                     @else
                                         {{ $item->nomor_pembelian }}
@@ -59,7 +59,8 @@
                                 <td>
                                     <ul>
                                         @foreach ($item->keranjang->obat as $obat)
-                                            <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs) <b>Rp. {{ number_format($obat->total_harga) }}</b></li>
+                                            <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs) <b>Rp.
+                                                    {{ number_format($obat->total_harga) }}</b></li>
                                         @endforeach
                                         Total: <b>Rp. {{ number_format($item->keranjang->obat->sum('total_harga')) }}</b>
                                     </ul>
@@ -67,12 +68,14 @@
                                 <td>
                                     <ul>
                                         @foreach ($item->keranjang->obat as $obat)
-                                            <li>- {{ $obat->obat->stok->where('tgl_kadaluarsa', '>', now())->sum('jumlah_obat') }}</li>
+                                            <li>-
+                                                {{ $obat->obat->stok->where('tgl_kadaluarsa', '>', now())->sum('jumlah_obat') }}
+                                            </li>
                                         @endforeach
                                     </ul>
                                 </td>
                                 <td>
-                                    @if ($item->status_pembayaran == "ditolak")
+                                    @if ($item->status_pembayaran == 'ditolak')
                                         ditolak <br>
                                         keterangan: {{ $item->keterangan }}
                                     @else
@@ -84,15 +87,28 @@
                                 <td>{{ $item->status_pembelian }}</td>
                                 <td>{{ $item->kurir }}</td>
                                 <td>
-                                    @if ($item->status_pembayaran == "menunggu")
-                                        <button type="button" class="btn btn-sm btn-primary" onclick="terima({{ $item->id }})">Terima</button>
-                                        <button type="button" class="btn btn-sm btn-danger" onclick="tolak({{ $item->id }})">Tolak</button>
-                                    @elseif ($item->status_pembayaran == "diterima" && $item->status_pembelian == "menunggu")
-                                        <button type="button" class="btn btn-sm btn-primary" onclick="kemas({{ $item->id }})">Kemas barang</button>
-                                    @elseif ($item->status_pembayaran == "diterima" && $item->status_pembelian == "dikemas")
-                                        <button type="button" class="btn btn-sm btn-primary" onclick="antar({{ $item->id }})">Antar</button>
-                                    @elseif ($item->status_pembayaran == "diterima" && $item->status_pembelian == "diantar")
-                                        Menunggu Konfirmasi Pembeli
+                                    @if ($item->status_ongkir == 'diterima')
+                                        @if ($item->bukti_transfer != null)
+                                            @if ($item->status_pembayaran == 'menunggu')
+                                                <button type="button" class="btn btn-sm btn-primary"
+                                                    onclick="terima({{ $item->id }})">Terima</button>
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                    onclick="tolak({{ $item->id }})">Tolak</button>
+                                            @elseif ($item->status_pembayaran == 'diterima' && $item->status_pembelian == 'menunggu')
+                                                <button type="button" class="btn btn-sm btn-primary"
+                                                    onclick="kemas({{ $item->id }})">Kemas barang</button>
+                                            @elseif ($item->status_pembayaran == 'diterima' && $item->status_pembelian == 'dikemas')
+                                                <button type="button" class="btn btn-sm btn-primary"
+                                                    onclick="antar({{ $item->id }})">Antar</button>
+                                            @elseif ($item->status_pembayaran == 'diterima' && $item->status_pembelian == 'diantar')
+                                                Menunggu Konfirmasi Pembeli
+                                            @endif
+                                        @else
+                                            Menunggu Pembayaran
+                                        @endif
+                                    @else
+                                        <button type="button" class="btn btn-sm btn-primary"
+                                            onclick="ongkir({{ $item->id }})">Ongkir</button>
                                     @endif
                                 </td>
                             </tr>
@@ -101,6 +117,29 @@
                 </table>
             </div>
         </div>
+    </div>
+
+    <div class="modal fade ongkir" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-5">
+                    <i class="bi bi-exclamation-triangle text-warning display-5"></i>
+                    <div class="mt-4">
+                        <h4 class="mb-3">Ongkir Data!</h4>
+                        <div class="hstack gap-2 justify-content-center">
+                            <form action="{{ route('validasi-ongkir') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="id" id="ongkir_id">
+                                <input class="form-control" name="ongkir" placeholder="Masukkan Ongkos kirim"
+                                    required> <br>
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-success">Ya</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
     </div>
 
     <div class="modal fade tolak" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -138,7 +177,8 @@
                             <form action="{{ route('validasi-terima') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="id" id="terima_id">
-                                <input class="form-control" name="nomor_pembelian" placeholder="Masukkan Nomor Pembelian" required> <br>
+                                <input class="form-control" name="nomor_pembelian" placeholder="Masukkan Nomor Pembelian"
+                                    required> <br>
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
                                 <button type="submit" class="btn btn-success">Ya</button>
                             </form>
@@ -196,6 +236,11 @@
 
 @push('scripts')
     <script>
+        function ongkir(id) {
+            $('#ongkir_id').val(id);
+            $('.ongkir').modal('toggle');
+        }
+
         function tolak(id) {
             $('#tolak_id').val(id);
             $('.tolak').modal('toggle');

@@ -42,12 +42,57 @@ class FrontController extends Controller
         return view('back.register');
     }
 
-    public function beli($id = null)
+    public function isi_alamat($id = null)
     {
         $keranjang = Keranjang::where('status', 'open')->findOrFail($id);
-        $rekening = Rekening::get();
 
-        return view('front.beli', compact('keranjang', 'rekening'));
+        return view('front.isi-alamat', compact('id', 'keranjang'));
+    }
+
+
+    public function pengisian_alamat(Request $request, $id = null)
+    {
+        DB::beginTransaction();
+
+        try {
+            $keranjang = Keranjang::findOrFail($request->keranjang_id);
+
+            $data = [
+                "user_id" => Auth::user()->id,
+                "keranjang_id" => $request->keranjang_id,
+                "nomor_pembelian" => "unknown",
+                "pembayaran" => "transfer",
+                "status_pembayaran" => "menunggu",
+                "status_pembelian" => "menunggu",
+                'kurir' => "apotek",
+                'alamat' => $request->alamat
+            ];
+
+            $penjualan = Penjualan::create($data);
+
+            if (!$penjualan->save()) {
+                throw new \Exception("Terjadi kesalahan, silahkan coba lagi");
+            }
+
+            $keranjang->status = "close";
+            $keranjang->update();
+
+            DB::commit();
+
+            return redirect()->route('riwayat-pembelian-customer')->with("success", "Berhasil menyimpan data");
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->withErrors($th->getMessage());
+        }
+    }
+
+    public function beli($id = null)
+    {
+        $keranjang = Keranjang::findOrFail($id);
+        $rekening = Rekening::get();
+        $penjualan = Penjualan::where('keranjang_id', $id)->first();
+
+        return view('front.beli', compact('keranjang', 'rekening', 'penjualan'));
     }
 
     public function pesan($id = null)
@@ -63,6 +108,7 @@ class FrontController extends Controller
 
         try {
             $keranjang = Keranjang::findOrFail($request->keranjang_id);
+            $penjualan = Penjualan::findOrFail($request->penjualan_id);
 
             $data = [
                 "user_id" => Auth::user()->id,
@@ -83,7 +129,7 @@ class FrontController extends Controller
             $request->bukti_transfer->move(public_path('/bukti_transfer/'), $imageName);
             $data['bukti_transfer'] = "/bukti_transfer/$imageName";
 
-            $penjualan = Penjualan::create($data);
+            $penjualan->update($data);
 
             if (!$penjualan->save()) {
                 throw new \Exception("Terjadi kesalahan, silahkan coba lagi");

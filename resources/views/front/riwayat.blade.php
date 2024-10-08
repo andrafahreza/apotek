@@ -43,7 +43,7 @@
                                             {{ $item->nomor_pembelian }}
                                         @endif
                                     </td>
-                                    <td>{{ $item->alamat }}</td>
+                                    <td>{{ $item->alamat }} <br> Ongkir: Rp. {{ number_format($item->ongkir) }}</td>
                                     <td>
                                         <ul>
                                             @foreach ($item->keranjang->obat as $obat)
@@ -51,7 +51,7 @@
                                             @endforeach
                                         </ul>
                                     </td>
-                                    <td>Rp. {{ number_format($item->keranjang->obat->sum('total_harga')) }}</td>
+                                    <td>Rp. {{ number_format($item->keranjang->obat->sum('total_harga') + $item->ongkir) }}</td>
                                     <td>
                                         @if ($item->status_pembayaran == "ditolak")
                                             ditolak <br>
@@ -71,6 +71,13 @@
                                     </td>
                                     <td>{{ $item->kurir }}</td>
                                     <td>
+                                        @if ($item->status_ongkir == "diterima")
+                                            @if ($item->bukti_transfer == null)
+                                                <a href="{{ route('beli', ['id' => $item->keranjang_id]) }}" class="btn btn-sm btn-primary">Pembayaran</a>
+                                            @endif
+                                        @elseif ($item->status_ongkir == "menunggu")
+                                            <span>Menunggu inputan ongkir</span>
+                                        @endif
                                         @if ($item->status_pembayaran == "diterima" && $item->status_pembelian == "diantar")
                                             <button type="button" class="btn btn-sm btn-primary" onclick="konfirmasi({{ $item->id }})">Konfirmasi</button>
                                         @endif

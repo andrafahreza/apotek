@@ -26,7 +26,8 @@
                                         <form action="{{ route('pembayaran-customer') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             <input type="hidden" name="keranjang_id" value="{{ $keranjang->id }}">
-                                            <span style="font-weight: bold">Total Tagihan: Rp. {{ number_format($keranjang->obat->sum('total_harga') + Auth::user()->ongkir) }}</span>
+                                            <input type="hidden" name="penjualan_id" value="{{ $penjualan->id }}">
+                                            <span style="font-weight: bold">Total Tagihan: Rp. {{ number_format($keranjang->obat->sum('total_harga') + $penjualan->ongkir) }}</span>
                                             <div class="single-re-input">
                                                 <label for="total_bayar">Bukti Pembayaran*</label>
                                                 <input type="file" name="bukti_transfer" id="bukti_transfer" required>
@@ -38,10 +39,10 @@
                                             </div>
                                             <div class="single-re-input">
                                                 <label for="alamat">Alamat*</label>
-                                                <input class="form-control" name="alamat" required>
+                                                <input class="form-control" name="alamat" readonly value="{{ $penjualan->alamat }}">
                                             </div>
                                             <div class="single-re-input">
-                                                <label for="kurir">Kurir <br> <small>Biaya Ongkir Rp. {{ number_format(Auth::user()->ongkir) }}. Obat akan dikirim oleh kurir apotek</small></label>
+                                                <label for="kurir">Kurir <br> <small>Biaya Ongkir Rp. {{ number_format( $penjualan->ongkir) }}. Obat akan dikirim oleh kurir apotek</small></label>
                                             </div>
                                             <button class="team-1" type="submit">Beli</button>
                                         </form>

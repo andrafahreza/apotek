@@ -97,7 +97,8 @@
                                                             <h6>{{ $item->obat->nama_obat }}</h6>
                                                             <p>
                                                                 - ID Pembelian : {{ $item->pembelian_id }} <br>
-                                                                - Tgl Kadaluarsa : {{ date('d-m-Y', strtotime($item->tgl_kadaluarsa)) }}
+                                                                - Tgl Kadaluarsa : {{ date('d-m-Y', strtotime($item->tgl_kadaluarsa)) }} <br>
+                                                                - Stok : {{ $item->jumlah_obat }}
                                                             </p>
                                                         </div>
                                                     </li>
@@ -130,7 +131,8 @@
                                                         <h6>{{ $item->obat->nama_obat }}</h6>
                                                         <p>
                                                             - ID Pembelian : {{ $item->pembelian_id }} <br>
-                                                            - Tgl Kadaluarsa : {{ date('d-m-Y', strtotime($item->tgl_kadaluarsa)) }}
+                                                            - Tgl Kadaluarsa : {{ date('d-m-Y', strtotime($item->tgl_kadaluarsa)) }} <br>
+                                                            - Stok : {{ $item->jumlah_obat }}
                                                         </p>
                                                     </div>
                                                 </li>
