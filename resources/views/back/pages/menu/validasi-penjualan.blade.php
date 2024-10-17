@@ -151,10 +151,18 @@
                         <h4 class="mb-3">Tolak Data!</h4>
                         <p class="text-muted mb-4"> Yakin ingin menolak ini? </p>
                         <div class="hstack gap-2 justify-content-center">
-                            <form action="{{ route('validasi-tolak') }}" method="POST">
+                            <form action="{{ route('validasi-tolak') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="id" id="tolak_id">
-                                <textarea class="form-control" name="keterangan" placeholder="Masukkan alasan penolakan" required></textarea> <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Bukti Transfer Kembali</label>
+                                        <input type="file" class="form-control" name="bukti_transfer_kembali" required>
+                                    </div>
+                                    <div class="col-md-12 mt-4">
+                                        <textarea class="form-control" name="keterangan" placeholder="Masukkan alasan penolakan" required></textarea> <br>
+                                    </div>
+                                </div>
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
                                 <button type="submit" class="btn btn-danger">Ya</button>
                             </form>

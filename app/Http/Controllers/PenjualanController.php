@@ -168,6 +168,14 @@ class PenjualanController extends Controller
             $data->status_pembelian = "gagal";
             $data->keterangan = $request->keterangan;
 
+            $request->validate([
+                'bukti_transfer_kembali' => 'required|image|mimes:jpeg,png,jpg',
+            ]);
+
+            $imageName = time().'.'.$request->bukti_transfer_kembali->extension();
+            $request->bukti_transfer_kembali->move(public_path('/bukti_transfer/'), $imageName);
+            $data->bukti_transfer_kembali = "/bukti_transfer/$imageName";
+
             if (!$data->update()) {
                 throw new \Exception("Terjadi kesalahan, silahkan coba lagi");
             }

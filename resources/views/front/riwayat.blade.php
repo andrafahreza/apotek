@@ -81,6 +81,9 @@
                                         @if ($item->status_pembayaran == "diterima" && $item->status_pembelian == "diantar")
                                             <button type="button" class="btn btn-sm btn-primary" onclick="konfirmasi({{ $item->id }})">Konfirmasi</button>
                                         @endif
+                                        @if ($item->status_pembayaran == "ditolak")
+                                            <a href="{{ $item->bukti_transfer_kembali }}" target="_blank">Lihat bukti refund</a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
