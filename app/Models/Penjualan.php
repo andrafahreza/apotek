@@ -22,6 +22,7 @@ class Penjualan extends Model
         'status_pembelian',
         'bukti_transfer',
         'bukti_transfer_kembali',
+        'resep_dokter',
         'kurir',
         'alamat',
         'ongkir'

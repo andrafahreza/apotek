@@ -45,6 +45,7 @@
                                     </td>
                                     <td>{{ $item->alamat }} <br> Ongkir: Rp. {{ number_format($item->ongkir) }}</td>
                                     <td>
+                                        <a href="{{ $item->resep_dokter }}" target="_blank">Lihat Resep Dokter</a>
                                         <ul>
                                             @foreach ($item->keranjang->obat as $obat)
                                                 <li>- {{ $obat->obat->nama_obat }} ({{ $obat->kuantiti }} pcs)</li>

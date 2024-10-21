@@ -122,12 +122,17 @@ class FrontController extends Controller
             ];
 
             $request->validate([
+                'resep_dokter' => 'required|image|mimes:jpeg,png,jpg',
                 'bukti_transfer' => 'required|image|mimes:jpeg,png,jpg',
             ]);
 
             $imageName = time().'.'.$request->bukti_transfer->extension();
             $request->bukti_transfer->move(public_path('/bukti_transfer/'), $imageName);
             $data['bukti_transfer'] = "/bukti_transfer/$imageName";
+
+            $imageName = time().'.'.$request->resep_dokter->extension();
+            $request->resep_dokter->move(public_path('/resep_dokter/'), $imageName);
+            $data['resep_dokter'] = "/resep_dokter/$imageName";
 
             $penjualan->update($data);
 

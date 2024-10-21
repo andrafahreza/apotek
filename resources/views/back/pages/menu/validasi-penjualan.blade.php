@@ -87,6 +87,7 @@
                                 <td>{{ $item->status_pembelian }}</td>
                                 <td>{{ $item->kurir }}</td>
                                 <td>
+                                    <a href="{{ $item->resep_dokter }}" target="_blank">Lihat Resep Dokter</a><br>
                                     @if ($item->status_ongkir == 'diterima')
                                         @if ($item->bukti_transfer != null)
                                             @if ($item->status_pembayaran == 'menunggu')

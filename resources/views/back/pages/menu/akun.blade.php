@@ -42,7 +42,7 @@
                             <th scope="col">Telepon</th>
                             <th scope="col">Role</th>
                             <th scope="col">Alamat</th>
-                            <th scope="col">Ongkir</th>
+                            {{-- <th scope="col">Ongkir</th> --}}
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -55,13 +55,13 @@
                                 <td>{{ $item->telepon }}</td>
                                 <td>{{ $item->role }}</td>
                                 <td>{{ $item->alamat }}</td>
-                                <td>
+                                {{-- <td>
                                     @if ($item->ongkir == null)
                                         <button type="button" class="btn btn-sm btn-primary" onclick="ongkir({{ $item->id }})" id="btnOngkir">Masukkan ongkir</button>
                                     @else
                                         Rp. {{ number_format($item->ongkir) }}
                                     @endif
-                                </td>
+                                </td> --}}
                                 <td>
                                     @if ($item->id != Auth::user()->id)
                                         <button type="button" class="btn btn-sm btn-primary" onclick="detail({{ $item->id }})" id="btnDetail">Detail</button>
@@ -118,6 +118,7 @@
                                     <option value="admin">Admin</option>
                                     <option value="customer">Customer</option>
                                     <option value="pemilik">Pemilik</option>
+                                    <option value="pegawai">Pegawai</option>
                                 </select>
                             </div>
                             <div class="col-md-12 mt-4">
