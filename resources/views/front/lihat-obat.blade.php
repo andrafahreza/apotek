@@ -34,14 +34,18 @@
                                 <h3>Kadaluarsa Obat: {{ $obat->stok->sum('jumlah_obat') > 0 ? date('d-m-Y', strtotime($obat->stok->first()->tgl_kadaluarsa)) : "-" }}</h3>
                             </div>
                             <div class="re-form">
-                                <form action="{{ route('tambah-keranjang') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <input type="hidden" name="obat_id" value="{{ $obat->id }}">
-                                    <input type="hidden" name="stok" value="{{ $stok }}">
+                                @if ($obat->jenis_obat != "obat dengan resep dokter")
+                                    <form action="{{ route('tambah-keranjang') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="obat_id" value="{{ $obat->id }}">
+                                        <input type="hidden" name="stok" value="{{ $stok }}">
 
-                                    Total Pembelian <input type="number" class="form-control" name="total" min="1" max="{{ $stok }}">
-                                    <button class="team-1 mt-2" type="submit">Tambah ke Keranjang</button>
-                                </form>
+                                        Total Pembelian <input type="number" class="form-control" name="total" min="1" max="{{ $stok }}">
+                                        <button class="team-1 mt-2" type="submit">Tambah ke Keranjang</button>
+                                    </form>
+                                @else
+                                    <b>NB:</b> Obat dengan resep dokter hanya bisa dibeli langsung ke toko
+                                @endif
                             </div>
                         </div>
                     </div>
