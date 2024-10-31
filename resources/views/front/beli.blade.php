@@ -28,10 +28,10 @@
                                             <input type="hidden" name="keranjang_id" value="{{ $keranjang->id }}">
                                             <input type="hidden" name="penjualan_id" value="{{ $penjualan->id }}">
                                             <span style="font-weight: bold">Total Tagihan: Rp. {{ number_format($keranjang->obat->sum('total_harga') + $penjualan->ongkir) }}</span>
-                                            <div class="single-re-input">
+                                            {{-- <div class="single-re-input">
                                                 <label for="total_bayar">Resep Dokter*</label>
                                                 <input type="file" name="resep_dokter" id="resep_dokter" required>
-                                            </div>
+                                            </div> --}}
                                             <div class="single-re-input">
                                                 <label for="total_bayar">Bukti Pembayaran*</label>
                                                 <input type="file" name="bukti_transfer" id="bukti_transfer" required>
